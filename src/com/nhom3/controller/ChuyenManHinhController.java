@@ -75,8 +75,11 @@ public class ChuyenManHinhController {
                     node = new CategoryJPanel();
                     break;
                 case "Sach":
-                node = new BookJPanel();
-                break;
+                    node = new BookJPanel();
+                    break;
+                case "HoaDon":
+                    node = new BookJPanel();
+                    break;
                 // more ...
                 default:
                     node = new HomeJPanel();

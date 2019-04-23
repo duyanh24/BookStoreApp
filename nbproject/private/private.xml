@@ -2,6 +2,25 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/HomeJPanel.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/MainJFrame.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/bean/KhoaHocBean.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/hoaDon/hoaDonJPanel.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/images/icon_menu4_white_24dp.png</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/controller/ExportFileExcel.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/controller/ChuyenManHinhController.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/images/icon_logo_teamvietdev.png</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/category/CategoryJPanel.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/entity/HoaDon.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/UserJPanel.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/ReaderJPanel.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/dao/JDBCConnection.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/images/icon_menu0_white_24dp.png</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/bean/LopHocBean.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/images/icon_menu3_white_24dp.png</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/images/icon_menu2_white_24dp.png</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/bean/DanhMucBean.java</file>
+        </group>
     </open-files>
 </project-private>
