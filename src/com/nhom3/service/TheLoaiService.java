@@ -24,4 +24,20 @@ public class TheLoaiService {
     public String getCategoryById(int maTheLoai){
         return theLoaiDao.getCategoryById(maTheLoai);
     }
+    
+    public List<TheLoai> searchFromTitle(String title){
+        return theLoaiDao.searchFromTitle(title);
+    }
+    
+    public void deleteCategory(int maTheLoai){
+        theLoaiDao.deleteCategory(maTheLoai);
+    }
+    
+    public void addCategory(TheLoai category){
+        theLoaiDao.addCategory(category);
+    }
+    
+    public void updateCategory(TheLoai category){
+        theLoaiDao.updateCategory(category);
+    }
 }

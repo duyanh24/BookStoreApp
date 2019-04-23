@@ -1,5 +1,5 @@
 
-package com.nhom3.view.book;
+package com.nhom3.views.book;
 
 import com.nhom3.entity.Sach;
 import com.nhom3.entity.TheLoai;

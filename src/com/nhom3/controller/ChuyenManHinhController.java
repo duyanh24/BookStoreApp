@@ -3,8 +3,9 @@ package com.nhom3.controller;
 import com.nhom3.bean.DanhMucBean;
 import com.nhom3.views.ReaderJPanel;
 import com.nhom3.views.UserJPanel;
-import com.nhom3.view.book.BookJPanel;
+import com.nhom3.views.book.BookJPanel;
 import com.nhom3.views.HomeJPanel;
+import com.nhom3.views.category.CategoryJPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -70,8 +71,8 @@ public class ChuyenManHinhController {
                 case "NhanVien":
                     node = new UserJPanel();
                     break;
-                case "DocGia":
-                    node = new ReaderJPanel();
+                case "TheLoai":
+                    node = new CategoryJPanel();
                     break;
                 case "Sach":
                 node = new BookJPanel();

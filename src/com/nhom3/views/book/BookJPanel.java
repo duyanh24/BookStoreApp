@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.nhom3.view.book;
+
+package com.nhom3.views.book;
 
 import com.nhom3.controller.ExportFileExcel;
-import com.nhom3.view.book.AddBookJFrame;
+import com.nhom3.views.book.AddBookJFrame;
 import com.nhom3.entity.Sach;
 import com.nhom3.service.SachService;
 import com.nhom3.service.TheLoaiService;
@@ -17,10 +13,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Admin
- */
 public class BookJPanel extends javax.swing.JPanel {
 
     SachService bookService;
@@ -38,8 +30,6 @@ public class BookJPanel extends javax.swing.JPanel {
                 return false; // Không cho phép người dùng sửa dữ liệu
             }        
         };
-        
-        typeSearchJCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Theo tên", "Theo tác giả", "Theo nhà XB"}));
         
         bookTable.setModel(defaultTableModel);
         defaultTableModel.addColumn("Mã sách");
