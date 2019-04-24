@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package com.nhom3.views.nhanvien;
-import com.nhom3.entity.nhanvien;
+import com.nhom3.entity.NhanVien;
 import com.nhom3.service.NhanVienService;
 
 
@@ -15,7 +15,7 @@ import com.nhom3.service.NhanVienService;
 public class AddNvJFrame extends javax.swing.JFrame {
 
     NhanVienService nvService;
-    nhanvien NV;
+    NhanVien NV;
     
     public AddNvJFrame() {
         initComponents();

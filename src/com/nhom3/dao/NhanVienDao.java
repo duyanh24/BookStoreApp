@@ -5,7 +5,7 @@
  */
 package com.nhom3.dao;
 
-import com.nhom3.entity.nhanvien;
+import com.nhom3.entity.NhanVien;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,8 +20,8 @@ import java.util.logging.Logger;
  * @author User
  */
 public class NhanVienDao {
-    public List<nhanvien> getAllNhanVien(){
-        List<nhanvien> NVs = new ArrayList<nhanvien>();
+    public List<NhanVien> getAllNhanVien(){
+        List<NhanVien> NVs = new ArrayList<NhanVien>();
         
         Connection connection = JDBCConnection.getJDBCConnection();
         
@@ -33,7 +33,7 @@ public class NhanVienDao {
             ResultSet rs = preparedStatement.executeQuery();
             
             while(rs.next()){
-                nhanvien nv = new nhanvien();
+                NhanVien nv = new NhanVien();
                 nv.setMaNV(rs.getString("MaNhanVien"));
                 nv.setHoTen(rs.getString("HoTen"));
                 nv.setSoDT(rs.getString("SoDT"));
@@ -49,7 +49,7 @@ public class NhanVienDao {
         }
         return NVs;
     }
-    public void addNhanVien(nhanvien NV){
+    public void addNhanVien(NhanVien NV){
        Connection connection = JDBCConnection.getJDBCConnection();
        String sql = "INSERT INTO dbo.NHAN_VIEN(MaNhanVien, HoTen,  SoDT, Email, TaiKhoan, MatKhau, ChucVu) VALUES (?,?,?,?,?,?,?)";
         try {
@@ -69,7 +69,7 @@ public class NhanVienDao {
         }
     }
     
-    public nhanvien getNVById(String MaNhanVien){
+    public NhanVien getNVById(String MaNhanVien){
          
         Connection connection = JDBCConnection.getJDBCConnection();
         
@@ -80,7 +80,7 @@ public class NhanVienDao {
             ResultSet rs = preparedStatement.executeQuery();
             
             while(rs.next()){
-                nhanvien nv = new nhanvien();
+                NhanVien nv = new NhanVien();
                 nv.setMaNV(rs.getString("MaNhanVien"));
                 nv.setHoTen(rs.getString("HoTen"));
                 nv.setSoDT(rs.getString("SoDT"));
@@ -95,7 +95,7 @@ public class NhanVienDao {
         }
         return null;
     }
-    public void updateNhanVien(nhanvien nv){
+    public void updateNhanVien(NhanVien nv){
         Connection connection = JDBCConnection.getJDBCConnection();
         String sql = "UPDATE dbo.NHAN_VIEN SET HoTen=?,SoDT=?,Email=?,TaiKhoan=?,MatKhau=?,ChucVu=? WHERE MaNhanVien=?";
         try {
@@ -114,8 +114,8 @@ public class NhanVienDao {
             Logger.getLogger(NhanVienDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public List<nhanvien> searchNVFromChucVu(String ChucVu){
-        List<nhanvien> NVs = new ArrayList<nhanvien>();
+    public List<NhanVien> searchNVFromChucVu(String ChucVu){
+        List<NhanVien> NVs = new ArrayList<NhanVien>();
         
         Connection connection = JDBCConnection.getJDBCConnection();
         
@@ -132,7 +132,7 @@ public class NhanVienDao {
             ResultSet rs = preparedStatement.executeQuery();
             
             while(rs.next()){
-                nhanvien nv = new nhanvien();
+                NhanVien nv = new NhanVien();
                 nv.setMaNV(rs.getString("MaNhanVien"));
                 nv.setHoTen(rs.getString("HoTen"));
                 nv.setSoDT(rs.getString("SoDT"));
@@ -147,8 +147,8 @@ public class NhanVienDao {
         }
         return NVs;
     }
-    public List<nhanvien> searchNVFromName(String Name){
-        List<nhanvien> NVs = new ArrayList<nhanvien>();
+    public List<NhanVien> searchNVFromName(String Name){
+        List<NhanVien> NVs = new ArrayList<NhanVien>();
         
         Connection connection = JDBCConnection.getJDBCConnection();
         
@@ -165,7 +165,7 @@ public class NhanVienDao {
             ResultSet rs = preparedStatement.executeQuery();
             
             while(rs.next()){
-                nhanvien nv = new nhanvien();
+                NhanVien nv = new NhanVien();
                 nv.setMaNV(rs.getString("MaNhanVien"));
                 nv.setHoTen(rs.getString("HoTen"));
                 nv.setSoDT(rs.getString("SoDT"));

@@ -6,7 +6,7 @@
 package com.nhom3.service;
 
 import com.nhom3.dao.NhanVienDao;
-import com.nhom3.entity.nhanvien;
+import com.nhom3.entity.NhanVien;
 import java.util.List;
 
 /**
@@ -20,27 +20,27 @@ public class NhanVienService {
         NvDao = new NhanVienDao();
     }
     
-    public List<nhanvien> getAllNhanVien(){
+    public List<NhanVien> getAllNhanVien(){
         return NvDao.getAllNhanVien();
     }
     
-    public void addNhanVien(nhanvien nv){
+    public void addNhanVien(NhanVien nv){
         NvDao.addNhanVien(nv);
     }
     
-    public nhanvien getNVById(String MaNhanVien){
+    public NhanVien getNVById(String MaNhanVien){
         return NvDao.getNVById(MaNhanVien);
     }
     
-    public void updateNhanVien(nhanvien nv){
+    public void updateNhanVien(NhanVien nv){
         NvDao.updateNhanVien(nv);
     }
     
-    public List<nhanvien> searchNVFromChucVu(String ChucVu){
+    public List<NhanVien> searchNVFromChucVu(String ChucVu){
         return NvDao.searchNVFromChucVu(ChucVu);
     }
     
-    public List<nhanvien> searchNVFromName(String Name){
+    public List<NhanVien> searchNVFromName(String Name){
         return NvDao.searchNVFromName(Name);
     }
     

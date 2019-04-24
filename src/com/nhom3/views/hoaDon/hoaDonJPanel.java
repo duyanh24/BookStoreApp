@@ -7,6 +7,8 @@ package com.nhom3.views.hoaDon;
 import com.nhom3.controller.ExportFileExcel;
 import com.nhom3.entity.HoaDon;
 import com.nhom3.service.HoaDonService;
+import com.nhom3.service.KhachHangService;
+import com.nhom3.views.khachHang.khachHangJPanel;
 import java.awt.Font;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -70,7 +72,7 @@ public class hoaDonJPanel extends javax.swing.JPanel {
         hoaDonTable.setModel(defaultTableModel);
 
         defaultTableModel.addColumn("Mã hóa đơn");
-        defaultTableModel.addColumn("Mã khách hàngn");
+        defaultTableModel.addColumn("Mã khách hàng");
         defaultTableModel.addColumn("Mã nhân viên");
         defaultTableModel.addColumn("Ngày bán");
         defaultTableModel.addColumn("Tổng tiền");
@@ -106,12 +108,12 @@ public class hoaDonJPanel extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         hoaDonTable = new javax.swing.JTable();
-        searchJTextField = new javax.swing.JTextField();
+        timKiemTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         exportFileButton = new javax.swing.JButton();
         fileNameTextField = new javax.swing.JTextField();
         typeSearchJCombobox = new javax.swing.JComboBox<>();
-        typeSearchJCombobox1 = new javax.swing.JComboBox<>();
+        timKiemComboBox = new javax.swing.JComboBox<>();
 
         updateButton.setBackground(new java.awt.Color(0, 153, 0));
         updateButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -195,8 +197,8 @@ public class hoaDonJPanel extends javax.swing.JPanel {
         hoaDonTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(hoaDonTable);
 
-        searchJTextField.setText("Nhập từ khóa tìm kiếm.");
-        searchJTextField.setToolTipText("");
+        timKiemTextField.setText("Nhập từ khóa tìm kiếm.");
+        timKiemTextField.setToolTipText("");
 
         searchButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         searchButton.setText("Tìm Kiếm");
@@ -220,7 +222,7 @@ public class hoaDonJPanel extends javax.swing.JPanel {
 
         typeSearchJCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        typeSearchJCombobox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        timKiemComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Ngày Bán" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -236,9 +238,9 @@ public class hoaDonJPanel extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(exportFileButton))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(typeSearchJCombobox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(timKiemComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(searchJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(timKiemTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -255,8 +257,8 @@ public class hoaDonJPanel extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(searchJTextField)
-                        .addComponent(typeSearchJCombobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(timKiemTextField)
+                        .addComponent(timKiemComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -316,54 +318,95 @@ public class hoaDonJPanel extends javax.swing.JPanel {
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         int row = hoaDonTable.getSelectedRow();
         int maTheLoai = Integer.valueOf(String.valueOf(hoaDonTable.getValueAt(row, 0)));
-        new UpdateJFrame(maTheLoai).setVisible(true);
+        //new UpdateJFrame(maTheLoai).setVisible(true);
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void refeshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refeshButtonActionPerformed
         defaultTableModel.setRowCount(0);
-        List<TheLoai> categories = categoryService.getAllCategory();
-
-        for(TheLoai category : categories){
-            defaultTableModel.addRow(new Object[]{category.getMaTheLoai(),category.getTheLoai()});
-        }
+        hoaDonService = new HoaDonService();
+        setData(hoaDonService.getAllHoaDon());
     }//GEN-LAST:event_refeshButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        new AddJFrame().setVisible(true);
+        new AddHoaDonJFrame().setVisible(true);
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int row = hoaDonTable.getSelectedRow();
+        hoaDonService = new HoaDonService();
 
-        int confirm  = JOptionPane.showConfirmDialog(CategoryJPanel.this, "Bạn có chắc chắn muốn xóa không?");
+        int confirm = JOptionPane.showConfirmDialog(hoaDonJPanel.this, "Bạn có chắc chắn muốn xóa không?");
 
-        if(confirm == JOptionPane.YES_OPTION){
-            int maTheLoai = Integer.valueOf(String.valueOf(hoaDonTable.getValueAt(row, 0)));
-            categoryService.deleteCategory(maTheLoai);
-            JOptionPane.showMessageDialog(null, "Đã xóa!");
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                int maHoaDon = Integer.valueOf(String.valueOf(hoaDonTable.getValueAt(row, 0)));
+                hoaDonService.deleteHoaDon(String.valueOf(maHoaDon));
+                JOptionPane.showMessageDialog(null, "Đã xóa!");
+                
+                defaultTableModel.setRowCount(0);
+                setData(hoaDonService.getAllHoaDon());
+            } catch (SQLException ex) {
+                Logger.getLogger(hoaDonJPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
 
-        String searchKeyWord;
-        searchKeyWord = searchJTextField.getText();
-        defaultTableModel = new DefaultTableModel(){
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // Không cho phép người dùng sửa dữ liệu
-            }
-        };
+        hoaDonService = new HoaDonService();
+        switch (String.valueOf(timKiemComboBox.getSelectedItem())) {
+            case "Mã hóa đơn":
+                hoaDons = hoaDonService.searchHoaDon("MaHoaDon", String.valueOf(timKiemTextField.getText()));
+                if (hoaDons.size() == 0) {
+                    label = new JLabel("Không tìm thấy kết quả");
+                    label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+                    JOptionPane.showMessageDialog(hoaDonJPanel.this, label, "Error", JOptionPane.ERROR_MESSAGE);
+                    defaultTableModel.setRowCount(0);
+                } else {
+                    defaultTableModel.setRowCount(0);
 
-        hoaDonTable.setModel(defaultTableModel);
-        defaultTableModel.addColumn("Mã thể loại");
-        defaultTableModel.addColumn("Tên thể loại");
+                    setData(hoaDons);
+                }
+                break;
+            case "Mã khách hàng":
+                hoaDons = hoaDonService.searchHoaDon("MaKH", String.valueOf(timKiemTextField.getText()));
+                if (hoaDons.size() == 0) {
+                    label = new JLabel("Không tìm thấy kết quả");
+                    label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+                    JOptionPane.showMessageDialog(hoaDonJPanel.this, label, "Error", JOptionPane.ERROR_MESSAGE);
+                    defaultTableModel.setRowCount(0);
+                } else {
+                    defaultTableModel.setRowCount(0);
 
-        List<TheLoai> categories;
-        categories = categoryService.searchFromTitle(searchKeyWord);
+                    setData(hoaDons);
+                }
+                break;
+            case "Mã nhân viên":
+                hoaDons = hoaDonService.searchHoaDon("MaNhanVien", String.valueOf(timKiemTextField.getText()));
+                if (hoaDons.size() == 0) {
+                    label = new JLabel("Không tìm thấy kết quả");
+                    label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+                    JOptionPane.showMessageDialog(hoaDonJPanel.this, label, "Error", JOptionPane.ERROR_MESSAGE);
+                    defaultTableModel.setRowCount(0);
+                } else {
+                    defaultTableModel.setRowCount(0);
 
-        for(TheLoai category : categories){
-            defaultTableModel.addRow(new Object[]{category.getMaTheLoai(),category.getTheLoai()});
+                    setData(hoaDons);
+                }
+                break;
+            case "Ngày Bán":
+                hoaDons = hoaDonService.searchHoaDon("NgayBan", String.valueOf(timKiemTextField.getText()));
+                if (hoaDons.size() == 0) {
+                    label = new JLabel("Không tìm thấy kết quả");
+                    label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+                    JOptionPane.showMessageDialog(hoaDonJPanel.this, label, "Error", JOptionPane.ERROR_MESSAGE);
+                    defaultTableModel.setRowCount(0);
+                } else {
+                    defaultTableModel.setRowCount(0);
+
+                    setData(hoaDons);
+                }
+                break;
         }
     }//GEN-LAST:event_searchButtonActionPerformed
 
@@ -397,9 +440,9 @@ public class hoaDonJPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton refeshButton;
     private javax.swing.JButton searchButton;
-    private javax.swing.JTextField searchJTextField;
+    private javax.swing.JComboBox<String> timKiemComboBox;
+    private javax.swing.JTextField timKiemTextField;
     private javax.swing.JComboBox<String> typeSearchJCombobox;
-    private javax.swing.JComboBox<String> typeSearchJCombobox1;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

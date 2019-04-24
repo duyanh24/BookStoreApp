@@ -9,7 +9,7 @@ package com.nhom3.entity;
  *
  * @author User
  */
-public class nhanvien {
+public class NhanVien {
     String MaNV;
     String HoTen;
     String SoDT;

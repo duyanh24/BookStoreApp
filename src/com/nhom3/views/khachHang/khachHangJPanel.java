@@ -312,7 +312,7 @@ public class khachHangJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_addBookbuttonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-         int row = khachHangTable.getSelectedRow();
+        int row = khachHangTable.getSelectedRow();
 
         int confirm = JOptionPane.showConfirmDialog(khachHangJPanel.this, "Bạn có chắc chắn muốn xóa không?");
 
@@ -389,7 +389,7 @@ public class khachHangJPanel extends javax.swing.JPanel {
     private void exportFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFileButtonActionPerformed
         exportFileExcel = new ExportFileExcel();
         StringBuffer path = new StringBuffer();
-        path.append("C:\\Users\\Hoang Viet\\Desktop\\");
+        path.append("C:\\Users\\Admin\\Desktop\\");
             path.append(fileNameTextField.getText());
             path.append(".xlsx");
             String path2 = path.toString();

@@ -6,14 +6,14 @@
 package com.nhom3.views.nhanvien;
 
 import com.nhom3.service.NhanVienService;
-import com.nhom3.entity.nhanvien;
+import com.nhom3.entity.NhanVien;
  /* 
         @author User
  */
 public class UpdateNvJFrame extends javax.swing.JFrame {
 
     NhanVienService nvService;
-    nhanvien nv;
+    NhanVien nv;
     
     public UpdateNvJFrame(String idNV) {
         initComponents();

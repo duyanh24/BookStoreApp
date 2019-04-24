@@ -6,7 +6,7 @@
 package com.nhom3.views.nhanvien;
 
 import com.nhom3.controller.ExportFileExcel;
-import com.nhom3.entity.nhanvien;
+import com.nhom3.entity.NhanVien;
 import com.nhom3.service.NhanVienService;
 import com.nhom3.views.nhanvien.NhanVienJPanel;
 import java.util.List;
@@ -45,9 +45,9 @@ public class NhanVienJPanel extends javax.swing.JFrame {
         defaultTableModel.addColumn("Mật khẩu");
         defaultTableModel.addColumn("Chức vụ");        
         
-        List<nhanvien> NVs = nvService.getAllNhanVien();
+        List<NhanVien> NVs = nvService.getAllNhanVien();
         
-        for(nhanvien nv : NVs){
+        for(NhanVien nv : NVs){
             defaultTableModel.addRow(new Object[]{nv.getMaNV(),nv.getHoTen(),nv.getSoDT(),nv.getEmail(),nv.getTaiKhoan(),nv.getMatKhau(),nv.getChucVu()});
         }
     }
@@ -257,7 +257,7 @@ public class NhanVienJPanel extends javax.swing.JFrame {
         defaultTableModel.addColumn("Chức vụ"); 
         
         String typeSearch = String.valueOf(typeSearchComboBox.getSelectedItem());
-        List<nhanvien> NVs;
+        List<NhanVien> NVs;
         if(typeSearch.equals("Theo tên")){
             NVs = nvService.searchNVFromName(searchKeyWord);
         }
@@ -265,7 +265,7 @@ public class NhanVienJPanel extends javax.swing.JFrame {
             NVs = nvService.searchNVFromChucVu(searchKeyWord);
         }
             
-        for(nhanvien nv : NVs){
+        for(NhanVien nv : NVs){
             defaultTableModel.addRow(new Object[]{nv.getMaNV(),nv.getHoTen(),nv.getSoDT(),nv.getEmail(),nv.getTaiKhoan(),nv.getMatKhau(),nv.getChucVu()});
         }
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -295,9 +295,9 @@ public class NhanVienJPanel extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         defaultTableModel.setRowCount(0);
-        List<nhanvien> NVs = nvService.getAllNhanVien();
+        List<NhanVien> NVs = nvService.getAllNhanVien();
         
-        for(nhanvien nv : NVs){
+        for(NhanVien nv : NVs){
             defaultTableModel.addRow(new Object[]{nv.getMaNV(),nv.getHoTen(),nv.getSoDT(),nv.getEmail(),nv.getTaiKhoan(),nv.getMatKhau(),nv.getChucVu()});
         }
     }//GEN-LAST:event_jButton5ActionPerformed
