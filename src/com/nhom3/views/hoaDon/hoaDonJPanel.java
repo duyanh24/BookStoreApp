@@ -4,6 +4,35 @@
  * and open the template in the editor.
  */
 package com.nhom3.views.hoaDon;
+import com.nhom3.controller.ExportFileExcel;
+import com.nhom3.entity.HoaDon;
+import com.nhom3.service.HoaDonService;
+import java.awt.Font;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.JFileChooser;
+import java.io.File;
+import javax.swing.*;
+import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.stage.FileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
 
 /**
  *
@@ -14,8 +43,49 @@ public class hoaDonJPanel extends javax.swing.JPanel {
     /**
      * Creates new form DonHangJPanel
      */
+    DefaultTableModel defaultTableModel;
+    int thuTu = 0;
+    int thuTuMuonTra;
+    ArrayList<HoaDon> hoaDons;
+    JLabel label;
+    HoaDon hoaDon;
+    //NhanVien currentNhanVien;
+    HoaDonService hoaDonService;
+    //NhanVienServices nhanVienServices;
+    //ArrayList<DocGia> docGias;
+    FileNameExtensionFilter fileNameExtensionFilter;
+    ExportFileExcel exportFileExcel;
     public hoaDonJPanel() {
         initComponents();
+        
+        //add column for table
+        defaultTableModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+
+        };
+
+        hoaDonTable.setModel(defaultTableModel);
+
+        defaultTableModel.addColumn("Mã hóa đơn");
+        defaultTableModel.addColumn("Mã khách hàngn");
+        defaultTableModel.addColumn("Mã nhân viên");
+        defaultTableModel.addColumn("Ngày bán");
+        defaultTableModel.addColumn("Tổng tiền");
+        
+        hoaDonService = new HoaDonService();
+        setData(hoaDonService.getAllHoaDon());
+        
+        
+    }
+    
+    private void setData(ArrayList<HoaDon> hoaDons) {
+        for (HoaDon hoaDon : hoaDons) {
+            defaultTableModel.addRow(new Object[]{hoaDon.getMaHoaDon(), hoaDon.getMaKH(),
+                hoaDon.getMaNhanVien(), hoaDon.getNgayBan(), hoaDon.getTongTien()});
+        }
     }
 
     /**
@@ -31,15 +101,17 @@ public class hoaDonJPanel extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         updateButton = new javax.swing.JButton();
         refeshButton = new javax.swing.JButton();
-        addCategorybutton = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        categoryTable = new javax.swing.JTable();
+        hoaDonTable = new javax.swing.JTable();
         searchJTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         exportFileButton = new javax.swing.JButton();
         fileNameTextField = new javax.swing.JTextField();
+        typeSearchJCombobox = new javax.swing.JComboBox<>();
+        typeSearchJCombobox1 = new javax.swing.JComboBox<>();
 
         updateButton.setBackground(new java.awt.Color(0, 153, 0));
         updateButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -60,14 +132,14 @@ public class hoaDonJPanel extends javax.swing.JPanel {
             }
         });
 
-        addCategorybutton.setBackground(new java.awt.Color(0, 153, 0));
-        addCategorybutton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        addCategorybutton.setForeground(new java.awt.Color(255, 255, 255));
-        addCategorybutton.setText("Thêm Thể Loại");
-        addCategorybutton.setBorderPainted(false);
-        addCategorybutton.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setBackground(new java.awt.Color(0, 153, 0));
+        addButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        addButton.setForeground(new java.awt.Color(255, 255, 255));
+        addButton.setText("Thêm Hóa Đơn");
+        addButton.setBorderPainted(false);
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addCategorybuttonActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
 
@@ -86,14 +158,14 @@ public class hoaDonJPanel extends javax.swing.JPanel {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(298, Short.MAX_VALUE)
                 .addComponent(refeshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(deleteButton)
                 .addGap(18, 18, 18)
                 .addComponent(updateButton)
                 .addGap(18, 18, 18)
-                .addComponent(addCategorybutton)
+                .addComponent(addButton)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -101,15 +173,15 @@ public class hoaDonJPanel extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addCategorybutton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(refeshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 13, Short.MAX_VALUE))
+                .addGap(0, 14, Short.MAX_VALUE))
         );
 
-        categoryTable.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        categoryTable.setModel(new javax.swing.table.DefaultTableModel(
+        hoaDonTable.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        hoaDonTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -120,7 +192,8 @@ public class hoaDonJPanel extends javax.swing.JPanel {
                 "Mã sách", "Tên sách", "Thể loại", "Tác giả", "Số lượng"
             }
         ));
-        jScrollPane1.setViewportView(categoryTable);
+        hoaDonTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(hoaDonTable);
 
         searchJTextField.setText("Nhập từ khóa tìm kiếm.");
         searchJTextField.setToolTipText("");
@@ -145,6 +218,10 @@ public class hoaDonJPanel extends javax.swing.JPanel {
 
         fileNameTextField.setText("Tên File");
 
+        typeSearchJCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        typeSearchJCombobox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -152,33 +229,45 @@ public class hoaDonJPanel extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 814, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(searchJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(fileNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(exportFileButton)))))
+                        .addComponent(fileNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(exportFileButton))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(typeSearchJCombobox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(searchJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(typeSearchJCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(searchJTextField))
+                    .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(searchJTextField)
+                        .addComponent(typeSearchJCombobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(exportFileButton, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                     .addComponent(fileNameTextField)))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(typeSearchJCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -206,16 +295,16 @@ public class hoaDonJPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 869, Short.MAX_VALUE)
+            .addGap(0, 882, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 3, Short.MAX_VALUE)
+                    .addGap(0, 4, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 4, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 742, Short.MAX_VALUE)
+            .addGap(0, 743, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -225,8 +314,8 @@ public class hoaDonJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        int row = categoryTable.getSelectedRow();
-        int maTheLoai = Integer.valueOf(String.valueOf(categoryTable.getValueAt(row, 0)));
+        int row = hoaDonTable.getSelectedRow();
+        int maTheLoai = Integer.valueOf(String.valueOf(hoaDonTable.getValueAt(row, 0)));
         new UpdateJFrame(maTheLoai).setVisible(true);
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -239,17 +328,17 @@ public class hoaDonJPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_refeshButtonActionPerformed
 
-    private void addCategorybuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategorybuttonActionPerformed
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         new AddJFrame().setVisible(true);
-    }//GEN-LAST:event_addCategorybuttonActionPerformed
+    }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        int row = categoryTable.getSelectedRow();
+        int row = hoaDonTable.getSelectedRow();
 
         int confirm  = JOptionPane.showConfirmDialog(CategoryJPanel.this, "Bạn có chắc chắn muốn xóa không?");
 
         if(confirm == JOptionPane.YES_OPTION){
-            int maTheLoai = Integer.valueOf(String.valueOf(categoryTable.getValueAt(row, 0)));
+            int maTheLoai = Integer.valueOf(String.valueOf(hoaDonTable.getValueAt(row, 0)));
             categoryService.deleteCategory(maTheLoai);
             JOptionPane.showMessageDialog(null, "Đã xóa!");
         }
@@ -266,7 +355,7 @@ public class hoaDonJPanel extends javax.swing.JPanel {
             }
         };
 
-        categoryTable.setModel(defaultTableModel);
+        hoaDonTable.setModel(defaultTableModel);
         defaultTableModel.addColumn("Mã thể loại");
         defaultTableModel.addColumn("Tên thể loại");
 
@@ -287,21 +376,21 @@ public class hoaDonJPanel extends javax.swing.JPanel {
             String path2 = path.toString();
 
             try {
-                exportFileExcel.writeToExcell(categoryTable,path2);
+                exportFileExcel.writeToExcell(hoaDonTable,path2);
                 JOptionPane.showMessageDialog(null, "Lưu file thành công!");
             } catch (IOException ex) {
-                Logger.getLogger(CategoryJPanel.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Lưu file không thành công!");
             }
     }//GEN-LAST:event_exportFileButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addCategorybutton;
-    private javax.swing.JTable categoryTable;
+    private javax.swing.JButton addButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JButton exportFileButton;
     private javax.swing.JTextField fileNameTextField;
+    private javax.swing.JTable hoaDonTable;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -309,6 +398,8 @@ public class hoaDonJPanel extends javax.swing.JPanel {
     private javax.swing.JButton refeshButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchJTextField;
+    private javax.swing.JComboBox<String> typeSearchJCombobox;
+    private javax.swing.JComboBox<String> typeSearchJCombobox1;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

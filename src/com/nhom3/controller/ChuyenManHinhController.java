@@ -6,6 +6,8 @@ import com.nhom3.views.UserJPanel;
 import com.nhom3.views.book.BookJPanel;
 import com.nhom3.views.HomeJPanel;
 import com.nhom3.views.category.CategoryJPanel;
+import com.nhom3.views.hoaDon.hoaDonJPanel;
+import com.nhom3.views.khachHang.khachHangJPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -78,7 +80,10 @@ public class ChuyenManHinhController {
                     node = new BookJPanel();
                     break;
                 case "HoaDon":
-                    node = new BookJPanel();
+                    node = new hoaDonJPanel();
+                    break;
+                case "KhachHang":
+                    node = new khachHangJPanel();
                     break;
                 // more ...
                 default:
