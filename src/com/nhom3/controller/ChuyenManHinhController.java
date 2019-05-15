@@ -3,7 +3,6 @@ package com.nhom3.controller;
 import com.nhom3.bean.DanhMucBean;
 import com.nhom3.views.ReaderJPanel;
 import com.nhom3.views.UserJPanel;
-import com.nhom3.views.book.BookJPanel;
 import com.nhom3.views.HomeJPanel;
 import com.nhom3.views.category.CategoryJPanel;
 import com.nhom3.views.hoaDon.hoaDonJPanel;
@@ -77,7 +76,7 @@ public class ChuyenManHinhController {
                     node = new CategoryJPanel();
                     break;
                 case "Sach":
-                    node = new BookJPanel();
+                    //node = new BookJPanel();
                     break;
                 case "HoaDon":
                     node = new hoaDonJPanel();

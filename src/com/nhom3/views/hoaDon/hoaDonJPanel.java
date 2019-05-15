@@ -8,6 +8,7 @@ import com.nhom3.controller.ExportFileExcel;
 import com.nhom3.entity.HoaDon;
 import com.nhom3.service.HoaDonService;
 import com.nhom3.service.KhachHangService;
+import com.nhom3.views.khachHang.UpdateKhachHangJFrame;
 import com.nhom3.views.khachHang.khachHangJPanel;
 import java.awt.Font;
 import java.sql.SQLException;
@@ -31,10 +32,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.stage.FileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.TableModel;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
+import org.apache.poi.xwpf.usermodel.TableRowAlign;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 /**
  *
@@ -114,6 +123,7 @@ public class hoaDonJPanel extends javax.swing.JPanel {
         fileNameTextField = new javax.swing.JTextField();
         typeSearchJCombobox = new javax.swing.JComboBox<>();
         timKiemComboBox = new javax.swing.JComboBox<>();
+        exportFileButton1 = new javax.swing.JButton();
 
         updateButton.setBackground(new java.awt.Color(0, 153, 0));
         updateButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -224,6 +234,16 @@ public class hoaDonJPanel extends javax.swing.JPanel {
 
         timKiemComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Ngày Bán" }));
 
+        exportFileButton1.setBackground(new java.awt.Color(51, 0, 153));
+        exportFileButton1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        exportFileButton1.setForeground(new java.awt.Color(255, 255, 255));
+        exportFileButton1.setText("Thêm File");
+        exportFileButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportFileButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -234,6 +254,8 @@ public class hoaDonJPanel extends javax.swing.JPanel {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 814, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(exportFileButton1)
+                        .addGap(18, 18, 18)
                         .addComponent(fileNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(exportFileButton))
@@ -264,7 +286,9 @@ public class hoaDonJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(exportFileButton, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                    .addComponent(fileNameTextField)))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(fileNameTextField)
+                        .addComponent(exportFileButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -317,8 +341,13 @@ public class hoaDonJPanel extends javax.swing.JPanel {
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         int row = hoaDonTable.getSelectedRow();
-        int maTheLoai = Integer.valueOf(String.valueOf(hoaDonTable.getValueAt(row, 0)));
-        //new UpdateJFrame(maTheLoai).setVisible(true);
+        if(row == -1){
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn trước!","Lỗi",JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            int maHoaDon = Integer.valueOf(String.valueOf(hoaDonTable.getValueAt(row, 0)));
+            new UpdateHoaDonJFrame(maHoaDon).setVisible(true);
+        }
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void refeshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refeshButtonActionPerformed
@@ -411,27 +440,187 @@ public class hoaDonJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void exportFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFileButtonActionPerformed
-        exportFileExcel = new ExportFileExcel();
-        StringBuffer path = new StringBuffer();
-        path.append("C:\\Users\\Admin\\Desktop\\");
+            StringBuffer path = new StringBuffer();
+            path.append("D://");
             path.append(fileNameTextField.getText());
-            path.append(".xlsx");
+            path.append(".doc");
             String path2 = path.toString();
 
             try {
-                exportFileExcel.writeToExcell(hoaDonTable,path2);
+                ExportFileWord(hoaDonTable, path2);
                 JOptionPane.showMessageDialog(null, "Lưu file thành công!");
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Lưu file không thành công!");
             }
     }//GEN-LAST:event_exportFileButtonActionPerformed
 
+    private void exportFileButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFileButton1ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser jFileChooser = new JFileChooser();
+        fileNameExtensionFilter = new FileNameExtensionFilter("excel", "xls");//chỉ chọn file xls(excel)
+        jFileChooser.setFileFilter(fileNameExtensionFilter);//lọc file xls
+
+        //set one selection
+        jFileChooser.setMultiSelectionEnabled(false);
+        int x = jFileChooser.showDialog(this, "Chọn file");//hiển thị bảng chọn file
+        if (x == JFileChooser.APPROVE_OPTION) {
+            try {
+                //đã chọn
+                File file = jFileChooser.getSelectedFile();
+                Workbook workBook = Workbook.getWorkbook(file);
+                Sheet s = workBook.getSheet(0);
+
+                int row = s.getRows();
+                int col = s.getColumns();
+                HoaDon hoaDon = new HoaDon();
+                for (int i = 1; i < row; i++) {
+                    for (int j = 0; j < col; j++) {
+                        Cell c = s.getCell(j, i);
+                        switch (j) {
+                            case 0:
+                            hoaDon.setMaHoaDon(c.getContents());
+                            break;
+                            case 1:
+                            hoaDon.setMaKH(c.getContents());
+                            break;
+                            case 2:
+                            hoaDon.setMaNhanVien(c.getContents());
+                            break;
+                            case 3:
+                            hoaDon.setNgayBan(c.getContents());
+                            break;
+                            case 4:
+                            hoaDon.setTongTien(Integer.parseInt(c.getContents()));
+                            break;
+                        }
+                    }
+                    //add one record into database
+                    hoaDonService.addHoaDon(hoaDon);
+                }
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (BiffException ex) {
+                ex.printStackTrace();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_exportFileButton1ActionPerformed
+    
+    public void ExportFileWord(JTable table,String fileName) {
+        try {
+
+            //Bước 1: Khởi tạo đối tượng để sinh ra file word
+            XWPFDocument document = new XWPFDocument();
+
+            //Bước 2: Tạo tiêu đề bài viết
+            XWPFParagraph titleGraph = document.createParagraph();
+            
+            //titleGraph.setAlignment(ParagraphAlignment.CENTER);
+            
+            String quocHieu = "THƯ VIỆN TẠ QUANG BỬU      		          CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM";
+            
+            XWPFRun titleRun = titleGraph.createRun();
+            
+            titleRun.setBold(true);
+            
+            titleRun.setText(quocHieu);
+            titleRun.setFontSize(12);
+            titleRun.setFontFamily("Times New Roman");
+
+            
+            XWPFParagraph paragraph1 = document.createParagraph();
+            XWPFRun run = paragraph1.createRun();
+            run.setText("              NHÓM 3				     Độc lập - Tự do – Hạnh phúc");
+            run.setFontSize(12);
+            run.setBold(true);
+            run.setFontFamily("Times New Roman");
+            
+            XWPFParagraph ngayThang = document.createParagraph();
+            XWPFRun run2 = ngayThang.createRun();
+            ngayThang.setAlignment(ParagraphAlignment.RIGHT);
+            run2.setText("Ngày 16 tháng 5 năm 2019       ");
+            run2.setFontSize(12);
+            run2.setItalic(true);
+            run2.setFontFamily("Times New Roman");
+            
+            XWPFParagraph khoangTrang = document.createParagraph();
+            XWPFRun run3 = ngayThang.createRun();
+            run3.setText("");
+
+            XWPFParagraph tenBieuMau = document.createParagraph();
+            XWPFRun run4 = tenBieuMau.createRun();
+            tenBieuMau.setAlignment(ParagraphAlignment.CENTER);
+            run4.setText("\n\nTHÔNG TIN HÓA ĐƠN  \n\n");
+            run4.setFontSize(12);
+            run4.setFontFamily("Times New Roman");
+            run4.setBold(true);
+            
+            XWPFParagraph khoangTrang2 = document.createParagraph();
+            XWPFRun run5 = ngayThang.createRun();
+            run5.setText("");
+            
+            XWPFTable createTable = document.createTable();
+            createTable.setTableAlignment(TableRowAlign.CENTER);
+            createTable.getCellMarginLeft();
+            //create first row
+            XWPFTableRow tableRowOne = createTable.getRow(0);
+            tableRowOne.getCell(0).setText(" STT ");
+            tableRowOne.addNewTableCell().setText(" Mã hóa đơn ");
+            tableRowOne.addNewTableCell().setText(" Mã khách hàng ");
+            tableRowOne.addNewTableCell().setText(" Mã nhân viên ");
+            tableRowOne.addNewTableCell().setText(" Ngày bán ");
+            tableRowOne.addNewTableCell().setText(" Tổng tiền ");
+
+            TableModel model = table.getModel();
+            
+            int stt=1;
+            for(int rows = 0; rows < model.getRowCount(); rows++){ //For each table row
+                XWPFTableRow tableRowTwo = createTable.createRow();
+                tableRowTwo.getCell(0).setText(" "+String.valueOf(stt));
+                for(int cols = 0; cols < model.getColumnCount(); cols++){ //For each table column
+                    tableRowTwo.getCell(cols+1).setText(" "+model.getValueAt(rows, cols).toString());
+                } 
+                stt++;
+            }
+            
+            XWPFParagraph khoangTrang3 = document.createParagraph();
+            XWPFRun run6 = khoangTrang3.createRun();
+            run6.setText("");
+            
+            XWPFParagraph chuKy = document.createParagraph();
+            XWPFRun run7 = chuKy.createRun();
+            run7.setText("Người lập \n														                                Xác nhận của thủ thư");
+            run7.setFontSize(12);
+            run7.setFontFamily("Times New Roman");
+            run7.setBold(true);
+            chuKy.setAlignment(ParagraphAlignment.CENTER);
+            
+            //Ghi dữ liệu ra file word
+            FileOutputStream out = new FileOutputStream(fileName);
+            
+            document.write(out);
+            
+            out.close();
+            
+            document.close();
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JButton exportFileButton;
+    private javax.swing.JButton exportFileButton1;
     private javax.swing.JTextField fileNameTextField;
     private javax.swing.JTable hoaDonTable;
     private javax.swing.JPanel jPanel1;

@@ -376,4 +376,65 @@ public class HoaDonDao {
 
         return hoaDons;
     }
+    
+    public HoaDon getHoaDonById(int maHoaDon) {
+        HoaDon hoaDon = new HoaDon();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            //Create Connnection object to connect MySql server and create Prestatement object
+            connection = JDBCConnection.getJDBCConnection();
+
+            //query statement
+            String sql = "SELECT * FROM HOA_DON WHERE MaHoaDon = ?";
+
+            //Create Prestatement object to execute query
+            preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            preparedStatement.setInt(1, maHoaDon);
+            //ResultSet to store data from database after getting
+            ResultSet rs = preparedStatement.executeQuery();
+
+            //pointer before first data
+            rs.beforeFirst();
+
+            while (rs.next()) {
+                //Create NhanVien object to save data
+                hoaDon.setMaHoaDon(rs.getString("MaHoaDon"));
+                hoaDon.setMaKH(rs.getString("MaKH"));
+                hoaDon.setMaNhanVien(rs.getString("MaNhanVien"));
+
+                Date dateNgayBan = rs.getDate("NgayBan");
+                DateFormat dateFormatNgayMuon = new SimpleDateFormat("yyyy-MM-dd");
+                hoaDon.setNgayBan(dateFormatNgayMuon.format(dateNgayBan));
+
+                hoaDon.setTongTien(rs.getInt("TongTien"));
+            }
+
+            //close Object and free Resource
+            connection.close();
+            preparedStatement.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+
+        return hoaDon;
+    }
 }

@@ -45,4 +45,8 @@ public class HoaDonService {
     public ArrayList<HoaDon> thongKeHoaDon(String comboBox){
         return hoaDonDao.thongKeHoaDon(comboBox);
     }
+    
+    public HoaDon getHoaDonById(int maHoaDon){
+        return hoaDonDao.getHoaDonById(maHoaDon);
+    }
 }
