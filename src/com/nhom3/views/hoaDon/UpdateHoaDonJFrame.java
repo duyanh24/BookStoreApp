@@ -41,20 +41,16 @@ public class UpdateHoaDonJFrame extends javax.swing.JFrame {
     public UpdateHoaDonJFrame(int maHoaDon) {
         initComponents();
         setLocationRelativeTo(null);
-        //get all KH in database
         khachHangService = new KhachHangService();
         khachHangs = khachHangService.getAllKhachHang();
         for (KhachHang khachHang : khachHangs) {
             maKHCombobox.addItem(khachHang.getMaKH());
         }
-        
-        //get all NhanVien in database
         nhanVienService = new NhanVienService();
         nhanViens = (ArrayList<NhanVien>) nhanVienService.getAllNhanVien();
         for (NhanVien nhanVien : nhanViens) {
             maNhanVienCombobox.addItem(nhanVien.getMaNV());
         }
-        
         hoaDonService = new HoaDonService();
         HoaDon hoaDon = hoaDonService.getHoaDonById(maHoaDon);
         maHoaDonTextField.setText(hoaDon.getMaHoaDon().toString());
@@ -71,7 +67,6 @@ public class UpdateHoaDonJFrame extends javax.swing.JFrame {
     
     private HoaDon getData() {
         HoaDon hoaDon = new HoaDon();
-        
         hoaDon.setMaHoaDon(maHoaDonTextField.getText().toString());
         hoaDon.setMaKH((String) maKHCombobox.getSelectedItem());
         hoaDon.setMaNhanVien((String) maNhanVienCombobox.getSelectedItem());
@@ -79,7 +74,6 @@ public class UpdateHoaDonJFrame extends javax.swing.JFrame {
         DateFormat dateFormatNgayBan = new SimpleDateFormat("yyyy-MM-dd");
         hoaDon.setNgayBan(dateFormatNgayBan.format(dateNgayBan));
         hoaDon.setTongTien(Integer.parseInt(tongTienTextField.getText().toString()));
-
         return hoaDon;
     }
 

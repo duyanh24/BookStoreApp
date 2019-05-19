@@ -4,33 +4,27 @@
  * and open the template in the editor.
  */
 package com.nhom3.views.hoaDon;
+
 import com.nhom3.controller.ExportFileExcel;
+import com.nhom3.entity.ChiTietHoaDon;
 import com.nhom3.entity.HoaDon;
+import com.nhom3.service.ChiTietHoaDonService;
 import com.nhom3.service.HoaDonService;
-import com.nhom3.service.KhachHangService;
-import com.nhom3.views.khachHang.UpdateKhachHangJFrame;
-import com.nhom3.views.khachHang.khachHangJPanel;
 import java.awt.Font;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
+import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
-import java.io.File;
-import javax.swing.*;
-import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.stage.FileChooser;
+import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;
 import jxl.Cell;
@@ -49,45 +43,49 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
  *
  * @author Hoang Viet
  */
-public class hoaDonJPanel extends javax.swing.JPanel {
+public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form DonHangJPanel
+     * Creates new form ChiTietHoaDonJFrame
      */
     DefaultTableModel defaultTableModel;
-    int thuTu = 0;
     int thuTuMuonTra;
     ArrayList<HoaDon> hoaDons;
+    ArrayList<ChiTietHoaDon> chiTietHoaDons;
     JLabel label;
     HoaDon hoaDon;
     //NhanVien currentNhanVien;
     HoaDonService hoaDonService;
+    ChiTietHoaDonService chiTietHoaDonService;
     //NhanVienServices nhanVienServices;
     //ArrayList<DocGia> docGias;
     FileNameExtensionFilter fileNameExtensionFilter;
     ExportFileExcel exportFileExcel;
-    public hoaDonJPanel() {
+    int currentMaHoaDon;
+    public ChiTietHoaDonJFrame(int maHoaDon) {
         initComponents();
+        setLocationRelativeTo(null);
+        currentMaHoaDon = maHoaDon;
+        //add column for table
         defaultTableModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
-        hoaDonTable.setModel(defaultTableModel);
+        chiTietHoaDonTable.setModel(defaultTableModel);
         defaultTableModel.addColumn("Mã hóa đơn");
-        defaultTableModel.addColumn("Mã khách hàng");
-        defaultTableModel.addColumn("Mã nhân viên");
-        defaultTableModel.addColumn("Ngày bán");
-        defaultTableModel.addColumn("Tổng tiền");
-        hoaDonService = new HoaDonService();
-        setData(hoaDonService.getAllHoaDon());
+        defaultTableModel.addColumn("Mã sách");
+        defaultTableModel.addColumn("Số lượng");
+        defaultTableModel.addColumn("Lãi suất");
+        chiTietHoaDonService = new ChiTietHoaDonService();
+        setData(chiTietHoaDonService.getAllChiTietHoaDon(maHoaDon));
     }
     
-    private void setData(ArrayList<HoaDon> hoaDons) {
-        for (HoaDon hoaDon : hoaDons) {
-            defaultTableModel.addRow(new Object[]{hoaDon.getMaHoaDon(), hoaDon.getMaKH(),
-                hoaDon.getMaNhanVien(), hoaDon.getNgayBan(), hoaDon.getTongTien()});
+    private void setData(ArrayList<ChiTietHoaDon> chiTietHoaDons) {
+        for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDons) {
+            defaultTableModel.addRow(new Object[]{chiTietHoaDon.getMaHoaDon(), chiTietHoaDon.getMaSach(),
+                chiTietHoaDon.getSoLuong(), chiTietHoaDon.getLaiSuat()});
         }
     }
 
@@ -100,16 +98,9 @@ public class hoaDonJPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        updateButton = new javax.swing.JButton();
-        refeshButton = new javax.swing.JButton();
-        addButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
-        addButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        hoaDonTable = new javax.swing.JTable();
+        chiTietHoaDonTable = new javax.swing.JTable();
         timKiemTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         exportFileButton = new javax.swing.JButton();
@@ -117,90 +108,16 @@ public class hoaDonJPanel extends javax.swing.JPanel {
         typeSearchJCombobox = new javax.swing.JComboBox<>();
         timKiemComboBox = new javax.swing.JComboBox<>();
         exportFileButton1 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        updateButton = new javax.swing.JButton();
+        refeshButton = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
 
-        updateButton.setBackground(new java.awt.Color(0, 153, 0));
-        updateButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        updateButton.setForeground(new java.awt.Color(255, 255, 255));
-        updateButton.setText("Cập Nhật");
-        updateButton.setBorderPainted(false);
-        updateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateButtonActionPerformed(evt);
-            }
-        });
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        refeshButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        refeshButton.setText("Refesh");
-        refeshButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refeshButtonActionPerformed(evt);
-            }
-        });
-
-        addButton.setBackground(new java.awt.Color(0, 153, 0));
-        addButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        addButton.setForeground(new java.awt.Color(255, 255, 255));
-        addButton.setText("Thêm Hóa Đơn");
-        addButton.setBorderPainted(false);
-        addButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
-            }
-        });
-
-        deleteButton.setBackground(new java.awt.Color(153, 0, 0));
-        deleteButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
-        deleteButton.setText("Xóa");
-        deleteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteButtonActionPerformed(evt);
-            }
-        });
-
-        addButton1.setBackground(new java.awt.Color(0, 153, 0));
-        addButton1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        addButton1.setForeground(new java.awt.Color(255, 255, 255));
-        addButton1.setText("Chi tiết hóa đơn");
-        addButton1.setBorderPainted(false);
-        addButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButton1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(116, 116, 116)
-                .addComponent(refeshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(deleteButton)
-                .addGap(18, 18, 18)
-                .addComponent(updateButton)
-                .addGap(18, 18, 18)
-                .addComponent(addButton)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(refeshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 14, Short.MAX_VALUE))
-        );
-
-        hoaDonTable.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        hoaDonTable.setModel(new javax.swing.table.DefaultTableModel(
+        chiTietHoaDonTable.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        chiTietHoaDonTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -211,8 +128,8 @@ public class hoaDonJPanel extends javax.swing.JPanel {
                 "Mã sách", "Tên sách", "Thể loại", "Tác giả", "Số lượng"
             }
         ));
-        hoaDonTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(hoaDonTable);
+        chiTietHoaDonTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(chiTietHoaDonTable);
 
         timKiemTextField.setText("Nhập từ khóa tìm kiếm.");
         timKiemTextField.setToolTipText("");
@@ -239,7 +156,7 @@ public class hoaDonJPanel extends javax.swing.JPanel {
 
         typeSearchJCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        timKiemComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Ngày Bán" }));
+        timKiemComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã sách", "Số lượng", "Lãi suất" }));
 
         exportFileButton1.setBackground(new java.awt.Color(51, 0, 153));
         exportFileButton1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -258,7 +175,7 @@ public class hoaDonJPanel extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 814, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(exportFileButton1)
@@ -303,20 +220,87 @@ public class hoaDonJPanel extends javax.swing.JPanel {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        updateButton.setBackground(new java.awt.Color(0, 153, 0));
+        updateButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        updateButton.setForeground(new java.awt.Color(255, 255, 255));
+        updateButton.setText("Cập Nhật");
+        updateButton.setBorderPainted(false);
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+
+        refeshButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        refeshButton.setText("Refesh");
+        refeshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refeshButtonActionPerformed(evt);
+            }
+        });
+
+        addButton.setBackground(new java.awt.Color(0, 153, 0));
+        addButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        addButton.setForeground(new java.awt.Color(255, 255, 255));
+        addButton.setText("Thêm");
+        addButton.setBorderPainted(false);
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
+
+        deleteButton.setBackground(new java.awt.Color(153, 0, 0));
+        deleteButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
+        deleteButton.setText("Xóa");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(116, 116, 116)
+                .addComponent(refeshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(deleteButton)
+                .addGap(18, 18, 18)
+                .addComponent(updateButton)
+                .addGap(18, 18, 18)
+                .addComponent(addButton)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(refeshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 14, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -324,134 +308,65 @@ public class hoaDonJPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 882, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 4, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 4, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 743, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        int row = hoaDonTable.getSelectedRow();
-        if(row == -1){
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn trước!","Lỗi",JOptionPane.ERROR_MESSAGE);
-        }
-        else{
-            int maHoaDon = Integer.valueOf(String.valueOf(hoaDonTable.getValueAt(row, 0)));
-            new UpdateHoaDonJFrame(maHoaDon).setVisible(true);
-        }
-    }//GEN-LAST:event_updateButtonActionPerformed
-
-    private void refeshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refeshButtonActionPerformed
-        defaultTableModel.setRowCount(0);
-        hoaDonService = new HoaDonService();
-        setData(hoaDonService.getAllHoaDon());
-    }//GEN-LAST:event_refeshButtonActionPerformed
-
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        new AddHoaDonJFrame().setVisible(true);
-    }//GEN-LAST:event_addButtonActionPerformed
-
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        int row = hoaDonTable.getSelectedRow();
-        hoaDonService = new HoaDonService();
-        int confirm = JOptionPane.showConfirmDialog(hoaDonJPanel.this, "Bạn có chắc chắn muốn xóa không?");
-        if (confirm == JOptionPane.YES_OPTION) {
-            try {
-                int maHoaDon = Integer.valueOf(String.valueOf(hoaDonTable.getValueAt(row, 0)));
-                hoaDonService.deleteHoaDon(String.valueOf(maHoaDon));
-                JOptionPane.showMessageDialog(null, "Đã xóa!");
-                defaultTableModel.setRowCount(0);
-                setData(hoaDonService.getAllHoaDon());
-            } catch (SQLException ex) {
-                Logger.getLogger(hoaDonJPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_deleteButtonActionPerformed
-
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-
-        hoaDonService = new HoaDonService();
+        chiTietHoaDonService = new ChiTietHoaDonService();
         switch (String.valueOf(timKiemComboBox.getSelectedItem())) {
-            case "Mã hóa đơn":
-                hoaDons = hoaDonService.searchHoaDon("MaHoaDon", String.valueOf(timKiemTextField.getText()));
-                if (hoaDons.size() == 0) {
-                    label = new JLabel("Không tìm thấy kết quả");
-                    label.setFont(new Font("Tahoma", Font.PLAIN, 18));
-                    JOptionPane.showMessageDialog(hoaDonJPanel.this, label, "Error", JOptionPane.ERROR_MESSAGE);
-                    defaultTableModel.setRowCount(0);
-                } else {
-                    defaultTableModel.setRowCount(0);
-                    setData(hoaDons);
-                }
-                break;
-            case "Mã khách hàng":
-                hoaDons = hoaDonService.searchHoaDon("MaKH", String.valueOf(timKiemTextField.getText()));
-                if (hoaDons.size() == 0) {
-                    label = new JLabel("Không tìm thấy kết quả");
-                    label.setFont(new Font("Tahoma", Font.PLAIN, 18));
-                    JOptionPane.showMessageDialog(hoaDonJPanel.this, label, "Error", JOptionPane.ERROR_MESSAGE);
-                    defaultTableModel.setRowCount(0);
-                } else {
-                    defaultTableModel.setRowCount(0);
-                    setData(hoaDons);
-                }
-                break;
-            case "Mã nhân viên":
-                hoaDons = hoaDonService.searchHoaDon("MaNhanVien", String.valueOf(timKiemTextField.getText()));
-                if (hoaDons.size() == 0) {
-                    label = new JLabel("Không tìm thấy kết quả");
-                    label.setFont(new Font("Tahoma", Font.PLAIN, 18));
-                    JOptionPane.showMessageDialog(hoaDonJPanel.this, label, "Error", JOptionPane.ERROR_MESSAGE);
-                    defaultTableModel.setRowCount(0);
-                } else {
-                    defaultTableModel.setRowCount(0);
-                    setData(hoaDons);
-                }
-                break;
-            case "Ngày Bán":
-                hoaDons = hoaDonService.searchHoaDon("NgayBan", String.valueOf(timKiemTextField.getText()));
-                if (hoaDons.size() == 0) {
-                    label = new JLabel("Không tìm thấy kết quả");
-                    label.setFont(new Font("Tahoma", Font.PLAIN, 18));
-                    JOptionPane.showMessageDialog(hoaDonJPanel.this, label, "Error", JOptionPane.ERROR_MESSAGE);
-                    defaultTableModel.setRowCount(0);
-                } else {
-                    defaultTableModel.setRowCount(0);
-                    setData(hoaDons);
-                }
-                break;
+            case "Mã sách":
+            chiTietHoaDons = chiTietHoaDonService.searchChiTietHoaDon("MaSach", String.valueOf(timKiemTextField.getText()));
+            if (chiTietHoaDons.size() == 0) {
+                label = new JLabel("Không tìm thấy kết quả");
+                label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+                JOptionPane.showMessageDialog(ChiTietHoaDonJFrame.this, label, "Error", JOptionPane.ERROR_MESSAGE);
+                defaultTableModel.setRowCount(0);
+            } else {
+                defaultTableModel.setRowCount(0);
+                setData(chiTietHoaDons);
+            }
+            break;
+            case "Số lượng":
+            chiTietHoaDons = chiTietHoaDonService.searchChiTietHoaDon("SoLuong", String.valueOf(timKiemTextField.getText()));
+            if (chiTietHoaDons.size() == 0) {
+                label = new JLabel("Không tìm thấy kết quả");
+                label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+                JOptionPane.showMessageDialog(ChiTietHoaDonJFrame.this, label, "Error", JOptionPane.ERROR_MESSAGE);
+                defaultTableModel.setRowCount(0);
+            } else {
+                defaultTableModel.setRowCount(0);
+                setData(chiTietHoaDons);
+            }
+            break;
+            case "Lãi suất":
+            chiTietHoaDons = chiTietHoaDonService.searchChiTietHoaDon("LaiSuat", String.valueOf(timKiemTextField.getText()));
+            if (chiTietHoaDons.size() == 0) {
+                label = new JLabel("Không tìm thấy kết quả");
+                label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+                JOptionPane.showMessageDialog(ChiTietHoaDonJFrame.this, label, "Error", JOptionPane.ERROR_MESSAGE);
+                defaultTableModel.setRowCount(0);
+            } else {
+                defaultTableModel.setRowCount(0);
+                setData(chiTietHoaDons);
+            }
+            break;
         }
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void exportFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFileButtonActionPerformed
-            StringBuffer path = new StringBuffer();
-            path.append("D://");
-            path.append(fileNameTextField.getText());
-            path.append(".doc");
-            String path2 = path.toString();
-            try {
-                ExportFileWord(hoaDonTable, path2);
-                JOptionPane.showMessageDialog(null, "Lưu file thành công!");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Lưu file không thành công!");
-            }
+        StringBuffer path = new StringBuffer();
+        path.append("D://");
+        path.append(fileNameTextField.getText());
+        path.append(".doc");
+        String path2 = path.toString();
+
+        try {
+            ExportFileWord(chiTietHoaDonTable, path2);
+            JOptionPane.showMessageDialog(null, "Lưu file thành công!");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Lưu file không thành công!");
+        }
     }//GEN-LAST:event_exportFileButtonActionPerformed
 
     private void exportFileButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFileButton1ActionPerformed
@@ -459,45 +374,37 @@ public class hoaDonJPanel extends javax.swing.JPanel {
         JFileChooser jFileChooser = new JFileChooser();
         fileNameExtensionFilter = new FileNameExtensionFilter("excel", "xls");//chỉ chọn file xls(excel)
         jFileChooser.setFileFilter(fileNameExtensionFilter);//lọc file xls
-
-        //set one selection
         jFileChooser.setMultiSelectionEnabled(false);
         int x = jFileChooser.showDialog(this, "Chọn file");//hiển thị bảng chọn file
         if (x == JFileChooser.APPROVE_OPTION) {
             try {
-                //đã chọn
                 File file = jFileChooser.getSelectedFile();
                 Workbook workBook = Workbook.getWorkbook(file);
                 Sheet s = workBook.getSheet(0);
-
                 int row = s.getRows();
                 int col = s.getColumns();
-                HoaDon hoaDon = new HoaDon();
+                ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
                 for (int i = 1; i < row; i++) {
                     for (int j = 0; j < col; j++) {
                         Cell c = s.getCell(j, i);
                         switch (j) {
                             case 0:
-                            hoaDon.setMaHoaDon(c.getContents());
+                            chiTietHoaDon.setMaHoaDon(Integer.parseInt(c.getContents()));
                             break;
                             case 1:
-                            hoaDon.setMaKH(c.getContents());
+                            chiTietHoaDon.setMaSach(Integer.parseInt(c.getContents()));
                             break;
                             case 2:
-                            hoaDon.setMaNhanVien(c.getContents());
+                            chiTietHoaDon.setSoLuong(Integer.parseInt(c.getContents()));
                             break;
                             case 3:
-                            hoaDon.setNgayBan(c.getContents());
-                            break;
-                            case 4:
-                            hoaDon.setTongTien(Integer.parseInt(c.getContents()));
+                            chiTietHoaDon.setLaiSuat(Float.parseFloat(c.getContents()));
                             break;
                         }
                     }
                     //add one record into database
-                    hoaDonService.addHoaDon(hoaDon);
+                    chiTietHoaDonService.addChiTietHoaDon(chiTietHoaDon);
                 }
-
             } catch (IOException ex) {
                 ex.printStackTrace();
             } catch (BiffException ex) {
@@ -510,19 +417,50 @@ public class hoaDonJPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_exportFileButton1ActionPerformed
 
-    private void addButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButton1ActionPerformed
-        // TODO add your handling code here:
-        int row = hoaDonTable.getSelectedRow();
-        if (row == -1) {
-            label = new JLabel("Chưa chọn bản ghi");
-            label.setFont(new Font("Tahoma", Font.PLAIN, 18));
-            JOptionPane.showMessageDialog(hoaDonJPanel.this, label, "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            int maHoaDon = Integer.parseInt((String) hoaDonTable.getValueAt(row, 0));
-            new ChiTietHoaDonJFrame(maHoaDon).setVisible(true);
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        int row = chiTietHoaDonTable.getSelectedRow();
+        if(row == -1){
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn chi tiết hóa đơn trước!","Lỗi",JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_addButton1ActionPerformed
-    
+        else{
+            ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
+            chiTietHoaDon.setMaHoaDon(Integer.valueOf(String.valueOf(chiTietHoaDonTable.getValueAt(row, 0))));
+            chiTietHoaDon.setMaSach(Integer.valueOf(String.valueOf(chiTietHoaDonTable.getValueAt(row, 1))));
+            chiTietHoaDon.setSoLuong(Integer.valueOf(String.valueOf(chiTietHoaDonTable.getValueAt(row, 2))));
+            chiTietHoaDon.setLaiSuat(Float.parseFloat(String.valueOf(chiTietHoaDonTable.getValueAt(row, 3))));
+            new UpdateChiTietHoaDonJFrame(chiTietHoaDon).setVisible(true);
+        }
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void refeshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refeshButtonActionPerformed
+        defaultTableModel.setRowCount(0);
+        chiTietHoaDonService = new ChiTietHoaDonService();
+        setData(chiTietHoaDonService.getAllChiTietHoaDon(currentMaHoaDon));
+    }//GEN-LAST:event_refeshButtonActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        int maHoaDon = Integer.parseInt(String.valueOf(chiTietHoaDonTable.getValueAt(0, 0)));
+        new AddChiTietHoaDonJFrame(maHoaDon).setVisible(true);      
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        int row = chiTietHoaDonTable.getSelectedRow();
+        chiTietHoaDonService = new ChiTietHoaDonService();
+        int confirm = JOptionPane.showConfirmDialog(ChiTietHoaDonJFrame.this, "Bạn có chắc chắn muốn xóa không?");
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                int maHoaDon = Integer.valueOf(String.valueOf(chiTietHoaDonTable.getValueAt(row, 0)));
+                int maSach = Integer.valueOf(String.valueOf(chiTietHoaDonTable.getValueAt(row, 1)));
+                chiTietHoaDonService.deleteChiTietHoaDon(maHoaDon,maSach);
+                JOptionPane.showMessageDialog(null, "Đã xóa!");
+                defaultTableModel.setRowCount(0);
+                setData(chiTietHoaDonService.getAllChiTietHoaDon(maHoaDon));
+            } catch (SQLException ex) {
+                Logger.getLogger(hoaDonJPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
     public void ExportFileWord(JTable table,String fileName) {
         try {
 
@@ -567,7 +505,7 @@ public class hoaDonJPanel extends javax.swing.JPanel {
             XWPFParagraph tenBieuMau = document.createParagraph();
             XWPFRun run4 = tenBieuMau.createRun();
             tenBieuMau.setAlignment(ParagraphAlignment.CENTER);
-            run4.setText("\n\nTHÔNG TIN HÓA ĐƠN  \n\n");
+            run4.setText("\n\nTHÔNG TIN CHI TIẾT HÓA ĐƠN  \n\n");
             run4.setFontSize(12);
             run4.setFontFamily("Times New Roman");
             run4.setBold(true);
@@ -583,10 +521,9 @@ public class hoaDonJPanel extends javax.swing.JPanel {
             XWPFTableRow tableRowOne = createTable.getRow(0);
             tableRowOne.getCell(0).setText(" STT ");
             tableRowOne.addNewTableCell().setText(" Mã hóa đơn ");
-            tableRowOne.addNewTableCell().setText(" Mã khách hàng ");
-            tableRowOne.addNewTableCell().setText(" Mã nhân viên ");
-            tableRowOne.addNewTableCell().setText(" Ngày bán ");
-            tableRowOne.addNewTableCell().setText(" Tổng tiền ");
+            tableRowOne.addNewTableCell().setText(" Mã sách ");
+            tableRowOne.addNewTableCell().setText(" Số lượng ");
+            tableRowOne.addNewTableCell().setText(" Lãi suất ");
 
             TableModel model = table.getModel();
             
@@ -626,17 +563,48 @@ public class hoaDonJPanel extends javax.swing.JPanel {
         }
         
     }
-    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ChiTietHoaDonJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ChiTietHoaDonJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ChiTietHoaDonJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ChiTietHoaDonJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
-    private javax.swing.JButton addButton1;
+    private javax.swing.JTable chiTietHoaDonTable;
     private javax.swing.JButton deleteButton;
     private javax.swing.JButton exportFileButton;
     private javax.swing.JButton exportFileButton1;
     private javax.swing.JTextField fileNameTextField;
-    private javax.swing.JTable hoaDonTable;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;

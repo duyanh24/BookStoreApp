@@ -20,6 +20,7 @@ public class MainJFrame extends javax.swing.JFrame {
         listItem.add(new DanhMucBean("TheLoai", jpnTheLoai, jlbTheLoai));
         listItem.add(new DanhMucBean("HoaDon", jpnDonHang, jlbDonHang));
         listItem.add(new DanhMucBean("KhachHang", jpnKhachHang, jlbKhachHang));
+        listItem.add(new DanhMucBean("ChiTietHoaDon", jpnKhachHang, jlbKhachHang));
         
         controller.setEvent(listItem);
     }
