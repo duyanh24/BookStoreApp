@@ -4,20 +4,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/hoaDon/UpdateChiTietHoaDonJFrame.java</file>
-            <file>jar:file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/book.zip!/book/StatisticalJFrame.java</file>
-            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/dao/ChiTietHoaDonDao.java</file>
-            <file>jar:file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/book.zip!/book/UpdateBookJFrame.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/hoaDon/UpdateHoaDonJFrame.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/service/HoaDonService.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/hoaDon/ThongKeHoaDonJFrame.java</file>
             <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/hoaDon/hoaDonJPanel.java</file>
             <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/hoaDon/ChiTietHoaDonJFrame.java</file>
-            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/hoaDon/AddHoaDonJFrame.java</file>
-            <file>jar:file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/book.zip!/book/AddBookJFrame.java</file>
-            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/controller/ExportFileBookStatis.java</file>
-            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/hoaDon/UpdateHoaDonJFrame.java</file>
-            <file>jar:file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/book.zip!/book/ImportFileDataJFrame.java</file>
-            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/service/ChiTietHoaDonService.java</file>
-            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/controller/ExportFileBook.java</file>
             <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/hoaDon/AddChiTietHoaDonJFrame.java</file>
-            <file>jar:file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/views/book.zip!/book/BookJPanel.java</file>
+            <file>file:/D:/GITHUB/BookStore_Java-swing-/src/com/nhom3/dao/HoaDonDao.java</file>
         </group>
     </open-files>
 </project-private>

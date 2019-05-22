@@ -23,6 +23,7 @@ import java.util.logging.Logger;
  * @author Hoang Viet
  */
 public class HoaDonDao {
+
     public ArrayList<HoaDon> getAllHoaDon() {
         ArrayList<HoaDon> hoaDons = new ArrayList<>();
         Connection connection = null;
@@ -185,7 +186,7 @@ public class HoaDonDao {
             preparedStatement.setString(5, hoaDon.getMaHoaDon());
             //INSERT INTO must use executeUpdate
             check = preparedStatement.executeUpdate();
-            
+
             //close Object and free Resource
             connection.close();
             preparedStatement.close();
@@ -209,7 +210,7 @@ public class HoaDonDao {
         }
         return check;
     }
-    
+
     public ArrayList<HoaDon> searchHoaDon(String comboBox, String textField) {
         ArrayList<HoaDon> hoaDons = new ArrayList<>();
         Connection connection = null;
@@ -219,7 +220,7 @@ public class HoaDonDao {
             //Create Connection Object
             connection = JDBCConnection.getJDBCConnection();
             //SQL query
-            String sql = "SELECT * FROM HOA_DON WHERE " + comboBox + " LIKE \'%"+textField+"%\'";
+            String sql = "SELECT * FROM HOA_DON WHERE " + comboBox + " LIKE \'%" + textField + "%\'";
             //Create PreparedStatement Object from Connection
             preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             //preparedStatement.setString(1, textField);
@@ -266,18 +267,36 @@ public class HoaDonDao {
 
         return hoaDons;
     }
-    
+
     public ArrayList<HoaDon> thongKeHoaDon(String comboBox) {
         ArrayList<HoaDon> hoaDons = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        
+
         try {
             //Create Connection Object
             connection = JDBCConnection.getJDBCConnection();
-            //SQL query
-            String sql = "SELECT " + comboBox+", COUNT("+comboBox+") AS 'SoLuong' FROM HOA_DON GROUP BY "+comboBox+"\n" 
-                    +"ORDER BY COUNT("+comboBox+");";
+            String sql = "";
+            if (comboBox.equals("Ngay")) {
+                sql = "SELECT DAY(NgayBan) AS 'NGAY', COUNT(DAY(NgayBan)) AS 'SoLuong' \n"
+                        + "FROM HOA_DON \n"
+                        + "GROUP BY DAY(NgayBan)\n"
+                        + "ORDER BY DAY(NgayBan)";
+            } else if (comboBox.equals("Thang")) {
+                sql = "SELECT MONTH(NgayBan) AS 'THANG', COUNT(MONTH(NgayBan)) AS 'SoLuong' \n"
+                        + "FROM HOA_DON \n"
+                        + "GROUP BY MONTH(NgayBan)\n"
+                        + "ORDER BY MONTH(NgayBan) ";
+            } else if (comboBox.equals("Nam")) {
+                sql = "SELECT YEAR(NgayBan) AS 'NAM', COUNT(YEAR(NgayBan)) AS 'SoLuong' \n"
+                        + "FROM HOA_DON \n"
+                        + "GROUP BY YEAR(NgayBan)\n"
+                        + "ORDER BY YEAR(NgayBan)";
+            } else {
+                //SQL query
+                sql = "SELECT " + comboBox + ", COUNT(" + comboBox + ") AS 'SoLuong' FROM HOA_DON GROUP BY " + comboBox + "\n"
+                        + "ORDER BY COUNT(" + comboBox + ");";
+            }
             //Create PreparedStatement Object from Connection
             preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             //Save result into ResultSet
@@ -300,8 +319,27 @@ public class HoaDonDao {
                     hoaDon.setSoLuong(rs.getInt("SoLuong"));
                     hoaDons.add(hoaDon);
                 }
-            } else if (comboBox.equals("")) {
-                //do-sonething
+            } else if (comboBox.equals("Ngay")) {
+                while (rs.next()) {
+                    HoaDon hoaDon = new HoaDon();
+                    hoaDon.setNgay(rs.getInt("NGAY"));
+                    hoaDon.setSoLuong(rs.getInt("SoLuong"));
+                    hoaDons.add(hoaDon);
+                }
+            } else if (comboBox.equals("Thang")) {
+                while (rs.next()) {
+                    HoaDon hoaDon = new HoaDon();
+                    hoaDon.setThang(rs.getInt("THANG"));
+                    hoaDon.setSoLuong(rs.getInt("SoLuong"));
+                    hoaDons.add(hoaDon);
+                }
+            } else if (comboBox.equals("Nam")) {
+                while (rs.next()) {
+                    HoaDon hoaDon = new HoaDon();
+                    hoaDon.setNam(rs.getInt("NAM"));
+                    hoaDon.setSoLuong(rs.getInt("SoLuong"));
+                    hoaDons.add(hoaDon);
+                }
             }
             //close object and free resource
             connection.close();
@@ -329,7 +367,7 @@ public class HoaDonDao {
 
         return hoaDons;
     }
-    
+
     public HoaDon getHoaDonById(int maHoaDon) {
         HoaDon hoaDon = new HoaDon();
         Connection connection = null;
