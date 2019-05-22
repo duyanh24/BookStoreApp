@@ -102,11 +102,12 @@ public class hoaDonJPanel extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        updateButton = new javax.swing.JButton();
+        thongKeButton = new javax.swing.JButton();
         refeshButton = new javax.swing.JButton();
         addButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         addButton1 = new javax.swing.JButton();
+        updateButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         hoaDonTable = new javax.swing.JTable();
@@ -118,14 +119,14 @@ public class hoaDonJPanel extends javax.swing.JPanel {
         timKiemComboBox = new javax.swing.JComboBox<>();
         exportFileButton1 = new javax.swing.JButton();
 
-        updateButton.setBackground(new java.awt.Color(0, 153, 0));
-        updateButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        updateButton.setForeground(new java.awt.Color(255, 255, 255));
-        updateButton.setText("Cập Nhật");
-        updateButton.setBorderPainted(false);
-        updateButton.addActionListener(new java.awt.event.ActionListener() {
+        thongKeButton.setBackground(new java.awt.Color(0, 153, 0));
+        thongKeButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        thongKeButton.setForeground(new java.awt.Color(255, 255, 255));
+        thongKeButton.setText("Thống kê");
+        thongKeButton.setBorderPainted(false);
+        thongKeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateButtonActionPerformed(evt);
+                thongKeButtonActionPerformed(evt);
             }
         });
 
@@ -169,20 +170,32 @@ public class hoaDonJPanel extends javax.swing.JPanel {
             }
         });
 
+        updateButton1.setBackground(new java.awt.Color(0, 153, 0));
+        updateButton1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        updateButton1.setForeground(new java.awt.Color(255, 255, 255));
+        updateButton1.setText("Cập Nhật");
+        updateButton1.setBorderPainted(false);
+        updateButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(116, 116, 116)
                 .addComponent(refeshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(thongKeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(deleteButton)
-                .addGap(18, 18, 18)
-                .addComponent(updateButton)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(updateButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addButton)
                 .addContainerGap())
         );
@@ -193,9 +206,10 @@ public class hoaDonJPanel extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(refeshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(thongKeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(addButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updateButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 14, Short.MAX_VALUE))
         );
 
@@ -346,16 +360,9 @@ public class hoaDonJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        int row = hoaDonTable.getSelectedRow();
-        if(row == -1){
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn trước!","Lỗi",JOptionPane.ERROR_MESSAGE);
-        }
-        else{
-            int maHoaDon = Integer.valueOf(String.valueOf(hoaDonTable.getValueAt(row, 0)));
-            new UpdateHoaDonJFrame(maHoaDon).setVisible(true);
-        }
-    }//GEN-LAST:event_updateButtonActionPerformed
+    private void thongKeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thongKeButtonActionPerformed
+        new ThongKeHoaDonJFrame().setVisible(true);
+    }//GEN-LAST:event_thongKeButtonActionPerformed
 
     private void refeshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refeshButtonActionPerformed
         defaultTableModel.setRowCount(0);
@@ -522,6 +529,10 @@ public class hoaDonJPanel extends javax.swing.JPanel {
             new ChiTietHoaDonJFrame(maHoaDon).setVisible(true);
         }
     }//GEN-LAST:event_addButton1ActionPerformed
+
+    private void updateButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updateButton1ActionPerformed
     
     public void ExportFileWord(JTable table,String fileName) {
         try {
@@ -642,9 +653,10 @@ public class hoaDonJPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton refeshButton;
     private javax.swing.JButton searchButton;
+    private javax.swing.JButton thongKeButton;
     private javax.swing.JComboBox<String> timKiemComboBox;
     private javax.swing.JTextField timKiemTextField;
     private javax.swing.JComboBox<String> typeSearchJCombobox;
-    private javax.swing.JButton updateButton;
+    private javax.swing.JButton updateButton1;
     // End of variables declaration//GEN-END:variables
 }

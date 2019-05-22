@@ -16,29 +16,30 @@ import java.util.ArrayList;
  * @author Hoang Viet
  */
 public class ChiTietHoaDonService {
+
     ChiTietHoaDonDao chiTietHoaDonDao;
 
     public ChiTietHoaDonService() {
         chiTietHoaDonDao = new ChiTietHoaDonDao();
     }
-    
+
     public ArrayList<ChiTietHoaDon> getAllChiTietHoaDon(int maHoaDon) {
         return chiTietHoaDonDao.getAllChiTietHoaDon(maHoaDon);
     }
-    
-    public void addChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) throws SQLException, ParseException{
+
+    public void addChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) throws SQLException, ParseException {
         chiTietHoaDonDao.addChiTietHoaDon(chiTietHoaDon);
     }
-    
-    public void deleteChiTietHoaDon(int maHoaDon,int maSach) throws SQLException{
+
+    public void deleteChiTietHoaDon(int maHoaDon, int maSach) throws SQLException {
         chiTietHoaDonDao.deleteChiTietHoaDon(maHoaDon, maSach);
     }
-    
-    public int updateChiTietHoaDon(ChiTietHoaDon chiTietHoaDon, int maSachCu) throws ParseException{
+
+    public int updateChiTietHoaDon(ChiTietHoaDon chiTietHoaDon, int maSachCu) throws ParseException {
         return chiTietHoaDonDao.updateChiTietHoaDon(chiTietHoaDon, maSachCu);
     }
-    
-    public ArrayList<ChiTietHoaDon> searchChiTietHoaDon(String comboBox, String textField) {
-        return chiTietHoaDonDao.searchChiTietHoaDon(comboBox, textField);
+
+    public ArrayList<ChiTietHoaDon> searchChiTietHoaDon(int maHoaDon, String comboBox, String textField) {
+        return chiTietHoaDonDao.searchChiTietHoaDon(maHoaDon, comboBox, textField);
     }
 }

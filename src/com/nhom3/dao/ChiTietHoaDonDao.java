@@ -168,17 +168,18 @@ public class ChiTietHoaDonDao {
         return check;
     }
     
-    public ArrayList<ChiTietHoaDon> searchChiTietHoaDon(String comboBox, String textField) {
+    public ArrayList<ChiTietHoaDon> searchChiTietHoaDon(int maHoaDon, String comboBox, String textField) {
         ArrayList<ChiTietHoaDon> chiTietHoaDons = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             connection = JDBCConnection.getJDBCConnection();
-            String sql = "SELECT * FROM CHI_TIET_HOA_DON WHERE " + comboBox + " LIKE \'%"+textField+"%\'";
+            String sql = "SELECT * FROM CHI_TIET_HOA_DON WHERE " + comboBox + " LIKE \'%"+textField+"%\' AND MaHoaDon LIKE ?";
             preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             //preparedStatement.setString(1, textField);
             //Save result into ResultSet
+            preparedStatement.setInt(1, maHoaDon);
             ResultSet rs = preparedStatement.executeQuery();
             rs.beforeFirst();
             

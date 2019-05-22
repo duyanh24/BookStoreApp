@@ -62,6 +62,7 @@ public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
     FileNameExtensionFilter fileNameExtensionFilter;
     ExportFileExcel exportFileExcel;
     int currentMaHoaDon;
+
     public ChiTietHoaDonJFrame(int maHoaDon) {
         initComponents();
         setLocationRelativeTo(null);
@@ -81,7 +82,7 @@ public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
         chiTietHoaDonService = new ChiTietHoaDonService();
         setData(chiTietHoaDonService.getAllChiTietHoaDon(maHoaDon));
     }
-    
+
     private void setData(ArrayList<ChiTietHoaDon> chiTietHoaDons) {
         for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDons) {
             defaultTableModel.addRow(new Object[]{chiTietHoaDon.getMaHoaDon(), chiTietHoaDon.getMaSach(),
@@ -315,41 +316,41 @@ public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
         chiTietHoaDonService = new ChiTietHoaDonService();
         switch (String.valueOf(timKiemComboBox.getSelectedItem())) {
             case "Mã sách":
-            chiTietHoaDons = chiTietHoaDonService.searchChiTietHoaDon("MaSach", String.valueOf(timKiemTextField.getText()));
-            if (chiTietHoaDons.size() == 0) {
-                label = new JLabel("Không tìm thấy kết quả");
-                label.setFont(new Font("Tahoma", Font.PLAIN, 18));
-                JOptionPane.showMessageDialog(ChiTietHoaDonJFrame.this, label, "Error", JOptionPane.ERROR_MESSAGE);
-                defaultTableModel.setRowCount(0);
-            } else {
-                defaultTableModel.setRowCount(0);
-                setData(chiTietHoaDons);
-            }
-            break;
+                chiTietHoaDons = chiTietHoaDonService.searchChiTietHoaDon(currentMaHoaDon, "MaSach", String.valueOf(timKiemTextField.getText()));
+                if (chiTietHoaDons.size() == 0) {
+                    label = new JLabel("Không tìm thấy kết quả");
+                    label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+                    JOptionPane.showMessageDialog(ChiTietHoaDonJFrame.this, label, "Error", JOptionPane.ERROR_MESSAGE);
+                    defaultTableModel.setRowCount(0);
+                } else {
+                    defaultTableModel.setRowCount(0);
+                    setData(chiTietHoaDons);
+                }
+                break;
             case "Số lượng":
-            chiTietHoaDons = chiTietHoaDonService.searchChiTietHoaDon("SoLuong", String.valueOf(timKiemTextField.getText()));
-            if (chiTietHoaDons.size() == 0) {
-                label = new JLabel("Không tìm thấy kết quả");
-                label.setFont(new Font("Tahoma", Font.PLAIN, 18));
-                JOptionPane.showMessageDialog(ChiTietHoaDonJFrame.this, label, "Error", JOptionPane.ERROR_MESSAGE);
-                defaultTableModel.setRowCount(0);
-            } else {
-                defaultTableModel.setRowCount(0);
-                setData(chiTietHoaDons);
-            }
-            break;
+                chiTietHoaDons = chiTietHoaDonService.searchChiTietHoaDon(currentMaHoaDon, "SoLuong", String.valueOf(timKiemTextField.getText()));
+                if (chiTietHoaDons.size() == 0) {
+                    label = new JLabel("Không tìm thấy kết quả");
+                    label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+                    JOptionPane.showMessageDialog(ChiTietHoaDonJFrame.this, label, "Error", JOptionPane.ERROR_MESSAGE);
+                    defaultTableModel.setRowCount(0);
+                } else {
+                    defaultTableModel.setRowCount(0);
+                    setData(chiTietHoaDons);
+                }
+                break;
             case "Lãi suất":
-            chiTietHoaDons = chiTietHoaDonService.searchChiTietHoaDon("LaiSuat", String.valueOf(timKiemTextField.getText()));
-            if (chiTietHoaDons.size() == 0) {
-                label = new JLabel("Không tìm thấy kết quả");
-                label.setFont(new Font("Tahoma", Font.PLAIN, 18));
-                JOptionPane.showMessageDialog(ChiTietHoaDonJFrame.this, label, "Error", JOptionPane.ERROR_MESSAGE);
-                defaultTableModel.setRowCount(0);
-            } else {
-                defaultTableModel.setRowCount(0);
-                setData(chiTietHoaDons);
-            }
-            break;
+                chiTietHoaDons = chiTietHoaDonService.searchChiTietHoaDon(currentMaHoaDon, "LaiSuat", String.valueOf(timKiemTextField.getText()));
+                if (chiTietHoaDons.size() == 0) {
+                    label = new JLabel("Không tìm thấy kết quả");
+                    label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+                    JOptionPane.showMessageDialog(ChiTietHoaDonJFrame.this, label, "Error", JOptionPane.ERROR_MESSAGE);
+                    defaultTableModel.setRowCount(0);
+                } else {
+                    defaultTableModel.setRowCount(0);
+                    setData(chiTietHoaDons);
+                }
+                break;
         }
     }//GEN-LAST:event_searchButtonActionPerformed
 
@@ -389,17 +390,17 @@ public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
                         Cell c = s.getCell(j, i);
                         switch (j) {
                             case 0:
-                            chiTietHoaDon.setMaHoaDon(Integer.parseInt(c.getContents()));
-                            break;
+                                chiTietHoaDon.setMaHoaDon(Integer.parseInt(c.getContents()));
+                                break;
                             case 1:
-                            chiTietHoaDon.setMaSach(Integer.parseInt(c.getContents()));
-                            break;
+                                chiTietHoaDon.setMaSach(Integer.parseInt(c.getContents()));
+                                break;
                             case 2:
-                            chiTietHoaDon.setSoLuong(Integer.parseInt(c.getContents()));
-                            break;
+                                chiTietHoaDon.setSoLuong(Integer.parseInt(c.getContents()));
+                                break;
                             case 3:
-                            chiTietHoaDon.setLaiSuat(Float.parseFloat(c.getContents()));
-                            break;
+                                chiTietHoaDon.setLaiSuat(Float.parseFloat(c.getContents()));
+                                break;
                         }
                     }
                     //add one record into database
@@ -419,10 +420,9 @@ public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         int row = chiTietHoaDonTable.getSelectedRow();
-        if(row == -1){
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn chi tiết hóa đơn trước!","Lỗi",JOptionPane.ERROR_MESSAGE);
-        }
-        else{
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn chi tiết hóa đơn trước!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        } else {
             ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
             chiTietHoaDon.setMaHoaDon(Integer.valueOf(String.valueOf(chiTietHoaDonTable.getValueAt(row, 0))));
             chiTietHoaDon.setMaSach(Integer.valueOf(String.valueOf(chiTietHoaDonTable.getValueAt(row, 1))));
@@ -440,7 +440,7 @@ public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         int maHoaDon = Integer.parseInt(String.valueOf(chiTietHoaDonTable.getValueAt(0, 0)));
-        new AddChiTietHoaDonJFrame(maHoaDon).setVisible(true);      
+        new AddChiTietHoaDonJFrame(maHoaDon).setVisible(true);
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -451,7 +451,7 @@ public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
             try {
                 int maHoaDon = Integer.valueOf(String.valueOf(chiTietHoaDonTable.getValueAt(row, 0)));
                 int maSach = Integer.valueOf(String.valueOf(chiTietHoaDonTable.getValueAt(row, 1)));
-                chiTietHoaDonService.deleteChiTietHoaDon(maHoaDon,maSach);
+                chiTietHoaDonService.deleteChiTietHoaDon(maHoaDon, maSach);
                 JOptionPane.showMessageDialog(null, "Đã xóa!");
                 defaultTableModel.setRowCount(0);
                 setData(chiTietHoaDonService.getAllChiTietHoaDon(maHoaDon));
@@ -461,7 +461,7 @@ public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
-    public void ExportFileWord(JTable table,String fileName) {
+    public void ExportFileWord(JTable table, String fileName) {
         try {
 
             //Bước 1: Khởi tạo đối tượng để sinh ra file word
@@ -469,27 +469,25 @@ public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
 
             //Bước 2: Tạo tiêu đề bài viết
             XWPFParagraph titleGraph = document.createParagraph();
-            
+
             //titleGraph.setAlignment(ParagraphAlignment.CENTER);
-            
             String quocHieu = "THƯ VIỆN TẠ QUANG BỬU      		          CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM";
-            
+
             XWPFRun titleRun = titleGraph.createRun();
-            
+
             titleRun.setBold(true);
-            
+
             titleRun.setText(quocHieu);
             titleRun.setFontSize(12);
             titleRun.setFontFamily("Times New Roman");
 
-            
             XWPFParagraph paragraph1 = document.createParagraph();
             XWPFRun run = paragraph1.createRun();
             run.setText("              NHÓM 3				     Độc lập - Tự do – Hạnh phúc");
             run.setFontSize(12);
             run.setBold(true);
             run.setFontFamily("Times New Roman");
-            
+
             XWPFParagraph ngayThang = document.createParagraph();
             XWPFRun run2 = ngayThang.createRun();
             ngayThang.setAlignment(ParagraphAlignment.RIGHT);
@@ -497,7 +495,7 @@ public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
             run2.setFontSize(12);
             run2.setItalic(true);
             run2.setFontFamily("Times New Roman");
-            
+
             XWPFParagraph khoangTrang = document.createParagraph();
             XWPFRun run3 = ngayThang.createRun();
             run3.setText("");
@@ -509,11 +507,11 @@ public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
             run4.setFontSize(12);
             run4.setFontFamily("Times New Roman");
             run4.setBold(true);
-            
+
             XWPFParagraph khoangTrang2 = document.createParagraph();
             XWPFRun run5 = ngayThang.createRun();
             run5.setText("");
-            
+
             XWPFTable createTable = document.createTable();
             createTable.setTableAlignment(TableRowAlign.CENTER);
             createTable.getCellMarginLeft();
@@ -526,21 +524,21 @@ public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
             tableRowOne.addNewTableCell().setText(" Lãi suất ");
 
             TableModel model = table.getModel();
-            
-            int stt=1;
-            for(int rows = 0; rows < model.getRowCount(); rows++){ //For each table row
+
+            int stt = 1;
+            for (int rows = 0; rows < model.getRowCount(); rows++) { //For each table row
                 XWPFTableRow tableRowTwo = createTable.createRow();
-                tableRowTwo.getCell(0).setText(" "+String.valueOf(stt));
-                for(int cols = 0; cols < model.getColumnCount(); cols++){ //For each table column
-                    tableRowTwo.getCell(cols+1).setText(" "+model.getValueAt(rows, cols).toString());
-                } 
+                tableRowTwo.getCell(0).setText(" " + String.valueOf(stt));
+                for (int cols = 0; cols < model.getColumnCount(); cols++) { //For each table column
+                    tableRowTwo.getCell(cols + 1).setText(" " + model.getValueAt(rows, cols).toString());
+                }
                 stt++;
             }
-            
+
             XWPFParagraph khoangTrang3 = document.createParagraph();
             XWPFRun run6 = khoangTrang3.createRun();
             run6.setText("");
-            
+
             XWPFParagraph chuKy = document.createParagraph();
             XWPFRun run7 = chuKy.createRun();
             run7.setText("Người lập \n														                                Xác nhận của thủ thư");
@@ -548,21 +546,22 @@ public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
             run7.setFontFamily("Times New Roman");
             run7.setBold(true);
             chuKy.setAlignment(ParagraphAlignment.CENTER);
-            
+
             //Ghi dữ liệu ra file word
             FileOutputStream out = new FileOutputStream(fileName);
-            
+
             document.write(out);
-            
+
             out.close();
-            
+
             document.close();
-            
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        
+
     }
+
     /**
      * @param args the command line arguments
      */
@@ -593,7 +592,7 @@ public class ChiTietHoaDonJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                
+
             }
         });
     }
