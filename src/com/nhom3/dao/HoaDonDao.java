@@ -278,23 +278,23 @@ public class HoaDonDao {
             connection = JDBCConnection.getJDBCConnection();
             String sql = "";
             if (comboBox.equals("Ngay")) {
-                sql = "SELECT DAY(NgayBan) AS 'NGAY', COUNT(DAY(NgayBan)) AS 'SoLuong' \n"
+                sql = "SELECT NgayBan AS 'NGAY', COUNT(NgayBan) AS 'SoLuong', SUM(TongTien) AS 'TongDoanhThu' \n"
                         + "FROM HOA_DON \n"
-                        + "GROUP BY DAY(NgayBan)\n"
-                        + "ORDER BY DAY(NgayBan)";
+                        + "GROUP BY NgayBan\n"
+                        + "ORDER BY TongDoanhThu";
             } else if (comboBox.equals("Thang")) {
-                sql = "SELECT MONTH(NgayBan) AS 'THANG', COUNT(MONTH(NgayBan)) AS 'SoLuong' \n"
+                sql = "SELECT FORMAT(NgayBan,'yyyy-MM') AS 'THANG', COUNT(FORMAT(NgayBan,'yyyy-MM')) AS 'SoLuong', SUM(TongTien) AS 'TongDoanhThu' \n"
                         + "FROM HOA_DON \n"
-                        + "GROUP BY MONTH(NgayBan)\n"
-                        + "ORDER BY MONTH(NgayBan) ";
+                        + "GROUP BY FORMAT(NgayBan,'yyyy-MM')\n"
+                        + "ORDER BY TongDoanhThu ";
             } else if (comboBox.equals("Nam")) {
-                sql = "SELECT YEAR(NgayBan) AS 'NAM', COUNT(YEAR(NgayBan)) AS 'SoLuong' \n"
+                sql = "SELECT YEAR(NgayBan) AS 'NAM', COUNT(YEAR(NgayBan)) AS 'SoLuong', SUM(TongTien) AS 'TongDoanhThu' \n"
                         + "FROM HOA_DON \n"
                         + "GROUP BY YEAR(NgayBan)\n"
-                        + "ORDER BY YEAR(NgayBan)";
+                        + "ORDER BY TongDoanhThu";
             } else {
                 //SQL query
-                sql = "SELECT " + comboBox + ", COUNT(" + comboBox + ") AS 'SoLuong' FROM HOA_DON GROUP BY " + comboBox + "\n"
+                sql = "SELECT " + comboBox + ", COUNT(" + comboBox + ") AS 'SoLuong', SUM(TongTien) AS 'TongDoanhThu' FROM HOA_DON GROUP BY " + comboBox + "\n"
                         + "ORDER BY COUNT(" + comboBox + ");";
             }
             //Create PreparedStatement Object from Connection
@@ -309,6 +309,7 @@ public class HoaDonDao {
                     HoaDon hoaDon = new HoaDon();
                     hoaDon.setMaKH(rs.getString("MaKH"));
                     hoaDon.setSoLuong(rs.getInt("SoLuong"));
+                    hoaDon.setTongDoanhThu(rs.getInt("TongDoanhThu"));
                     hoaDons.add(hoaDon);
                 }
             } else if (comboBox.equals("MaNhanVien")) {
@@ -317,27 +318,31 @@ public class HoaDonDao {
                     HoaDon hoaDon = new HoaDon();
                     hoaDon.setMaNhanVien(rs.getString("MaNhanVien"));
                     hoaDon.setSoLuong(rs.getInt("SoLuong"));
+                    hoaDon.setTongDoanhThu(rs.getInt("TongDoanhThu"));
                     hoaDons.add(hoaDon);
                 }
             } else if (comboBox.equals("Ngay")) {
                 while (rs.next()) {
                     HoaDon hoaDon = new HoaDon();
-                    hoaDon.setNgay(rs.getInt("NGAY"));
+                    hoaDon.setNgay(rs.getString("NGAY"));
                     hoaDon.setSoLuong(rs.getInt("SoLuong"));
+                    hoaDon.setTongDoanhThu(rs.getInt("TongDoanhThu"));
                     hoaDons.add(hoaDon);
                 }
             } else if (comboBox.equals("Thang")) {
                 while (rs.next()) {
                     HoaDon hoaDon = new HoaDon();
-                    hoaDon.setThang(rs.getInt("THANG"));
+                    hoaDon.setThang(rs.getString("THANG"));
                     hoaDon.setSoLuong(rs.getInt("SoLuong"));
+                    hoaDon.setTongDoanhThu(rs.getInt("TongDoanhThu"));
                     hoaDons.add(hoaDon);
                 }
             } else if (comboBox.equals("Nam")) {
                 while (rs.next()) {
                     HoaDon hoaDon = new HoaDon();
-                    hoaDon.setNam(rs.getInt("NAM"));
+                    hoaDon.setNam(rs.getString("NAM"));
                     hoaDon.setSoLuong(rs.getInt("SoLuong"));
+                    hoaDon.setTongDoanhThu(rs.getInt("TongDoanhThu"));
                     hoaDons.add(hoaDon);
                 }
             }

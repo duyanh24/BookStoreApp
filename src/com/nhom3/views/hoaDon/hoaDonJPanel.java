@@ -532,6 +532,15 @@ public class hoaDonJPanel extends javax.swing.JPanel {
 
     private void updateButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButton1ActionPerformed
         // TODO add your handling code here:
+        int row = hoaDonTable.getSelectedRow();
+        if (row == -1) {
+            label = new JLabel("Chưa chọn bản ghi");
+            label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+            JOptionPane.showMessageDialog(hoaDonJPanel.this, label, "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            int maHoaDon = Integer.parseInt((String) hoaDonTable.getValueAt(row, 0));
+            new UpdateHoaDonJFrame(maHoaDon).setVisible(true);
+        }
     }//GEN-LAST:event_updateButton1ActionPerformed
     
     public void ExportFileWord(JTable table,String fileName) {

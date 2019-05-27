@@ -61,50 +61,55 @@ public class ThongKeHoaDonJFrame extends javax.swing.JFrame {
                 defaultTableModel.addColumn("Thứ tự");
                 defaultTableModel.addColumn("Mã khách hàng");
                 defaultTableModel.addColumn("Số lượng");
+                defaultTableModel.addColumn("Tổng doanh thu");
                 for (HoaDon hoaDon : hoaDons) {
                     thuTu++;
                     defaultTableModel.addRow(new Object[]{thuTu, hoaDon.getMaKH(),
-                        hoaDon.getSoLuong()});
+                        hoaDon.getSoLuong(), hoaDon.getTongDoanhThu()});
                 }
                 break;
             case "MaNhanVien":
                 defaultTableModel.addColumn("Thứ tự");
                 defaultTableModel.addColumn("Mã nhân viên");
                 defaultTableModel.addColumn("Số lượng");
+                defaultTableModel.addColumn("Tổng doanh thu");
                 for (HoaDon hoaDon : hoaDons) {
                     thuTu++;
                     defaultTableModel.addRow(new Object[]{thuTu, hoaDon.getMaNhanVien(),
-                        hoaDon.getSoLuong()});
+                        hoaDon.getSoLuong(), hoaDon.getTongDoanhThu()});
                 }
                 break;
             case "Ngay":
                 defaultTableModel.addColumn("Thứ tự");
                 defaultTableModel.addColumn("Ngày");
                 defaultTableModel.addColumn("Số lượng");
+                defaultTableModel.addColumn("Tổng doanh thu");
                 for (HoaDon hoaDon : hoaDons) {
                     thuTu++;
                     defaultTableModel.addRow(new Object[]{thuTu, hoaDon.getNgay(),
-                        hoaDon.getSoLuong()});
+                        hoaDon.getSoLuong(), hoaDon.getTongDoanhThu()});
                 }
                 break;
             case "Thang":
                 defaultTableModel.addColumn("Thứ tự");
                 defaultTableModel.addColumn("Tháng");
                 defaultTableModel.addColumn("Số lượng");
+                defaultTableModel.addColumn("Tổng doanh thu");
                 for (HoaDon hoaDon : hoaDons) {
                     thuTu++;
                     defaultTableModel.addRow(new Object[]{thuTu, hoaDon.getThang(),
-                        hoaDon.getSoLuong()});
+                        hoaDon.getSoLuong(), hoaDon.getTongDoanhThu()});
                 }
                 break;
             case "Nam":
                 defaultTableModel.addColumn("Thứ tự");
                 defaultTableModel.addColumn("Năm");
                 defaultTableModel.addColumn("Số lượng");
+                defaultTableModel.addColumn("Tổng doanh thu");
                 for (HoaDon hoaDon : hoaDons) {
                     thuTu++;
                     defaultTableModel.addRow(new Object[]{thuTu, hoaDon.getNam(),
-                        hoaDon.getSoLuong()});
+                        hoaDon.getSoLuong(), hoaDon.getTongDoanhThu()});
                 }
                 break;
         }

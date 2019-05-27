@@ -16,35 +16,53 @@ public class HoaDon {
     private String ngayBan;
     private int tongTien;
     private int soLuong;
-    private int ngay;
-    private int thang;
-    private int nam;
+    private int tongDoanhThu;
+    private int lai;
+    private String ngay;
+    private String thang;
+    private String nam;
 
-    public int getNgay() {
+    public String getNgay() {
         return ngay;
     }
 
-    public void setNgay(int ngay) {
+    public void setNgay(String ngay) {
         this.ngay = ngay;
     }
 
-    public int getThang() {
+    public String getThang() {
         return thang;
     }
 
-    public void setThang(int thang) {
+    public void setThang(String thang) {
         this.thang = thang;
     }
 
-    public int getNam() {
+    public String getNam() {
         return nam;
     }
 
-    public void setNam(int nam) {
+    public void setNam(String nam) {
         this.nam = nam;
     }
     
     
+
+    public int getLai() {
+        return lai;
+    }
+
+    public void setLai(int lai) {
+        this.lai = lai;
+    }
+
+    public int getTongDoanhThu() {
+        return tongDoanhThu;
+    }
+
+    public void setTongDoanhThu(int tongDoanhThu) {
+        this.tongDoanhThu = tongDoanhThu;
+    }
 
     public int getSoLuong() {
         return soLuong;

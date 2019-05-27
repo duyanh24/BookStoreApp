@@ -55,7 +55,13 @@ public class UpdateHoaDonJFrame extends javax.swing.JFrame {
         HoaDon hoaDon = hoaDonService.getHoaDonById(maHoaDon);
         maHoaDonTextField.setText(hoaDon.getMaHoaDon().toString());
         maKHCombobox.setSelectedItem(hoaDon.getMaKH().toString());
+        khachHangService = new KhachHangService();
+        KhachHang khachHang = khachHangService.getKhachHangById(Integer.parseInt(hoaDon.getMaKH()));
+        tenKHTextField.setText(khachHang.getHoTen());
         maNhanVienCombobox.setSelectedItem(hoaDon.getMaNhanVien().toString());
+        nhanVienService = new NhanVienService();
+        NhanVien nhanVien = nhanVienService.getNVById(hoaDon.getMaNhanVien());
+        tenNhanVienTextField.setText(nhanVien.getHoTen());
         try {
             Date ngayBan = new SimpleDateFormat("yyyy-MM-dd").parse(hoaDon.getNgayBan());
             ngayBanDateChooser.setDate(ngayBan);
@@ -101,6 +107,10 @@ public class UpdateHoaDonJFrame extends javax.swing.JFrame {
         ngayBanDateChooser = new com.toedter.calendar.JDateChooser();
         jLabel6 = new javax.swing.JLabel();
         maHoaDonTextField = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        tenKHTextField = new javax.swing.JTextField();
+        tenNhanVienTextField = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
         submit1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -202,13 +212,31 @@ public class UpdateHoaDonJFrame extends javax.swing.JFrame {
 
         maHoaDonTextField.setEditable(false);
 
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel8.setText("Tên KH");
+
+        tenKHTextField.setEditable(false);
+
+        tenNhanVienTextField.setEditable(false);
+
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel9.setText("Tên nhân viên");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tenKHTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tenNhanVienTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,7 +245,7 @@ public class UpdateHoaDonJFrame extends javax.swing.JFrame {
                         .addComponent(jLabel6)
                         .addGap(27, 27, 27)
                         .addComponent(maHoaDonTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(500, Short.MAX_VALUE))
+                .addContainerGap(595, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,7 +256,16 @@ public class UpdateHoaDonJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(maHoaDonTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tenKHTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tenNhanVienTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))))
                 .addGap(35, 35, 35))
         );
 
@@ -254,7 +291,7 @@ public class UpdateHoaDonJFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 657, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 752, Short.MAX_VALUE)
                 .addComponent(submit, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(submit1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -308,10 +345,18 @@ public class UpdateHoaDonJFrame extends javax.swing.JFrame {
 
     private void maKHComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maKHComboboxActionPerformed
         // TODO add your handling code here:
+        String maKH = (String) maKHCombobox.getSelectedItem();
+        khachHangService = new KhachHangService();
+        KhachHang khachHang = khachHangService.getKhachHangById(Integer.parseInt(maKH));
+        tenKHTextField.setText(khachHang.getHoTen());
     }//GEN-LAST:event_maKHComboboxActionPerformed
 
     private void maNhanVienComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maNhanVienComboboxActionPerformed
         // TODO add your handling code here:
+        String maNhanVien = (String) maNhanVienCombobox.getSelectedItem();
+        nhanVienService = new NhanVienService();
+        NhanVien nhanVien = nhanVienService.getNVById(maNhanVien);
+        tenNhanVienTextField.setText(nhanVien.getHoTen());
     }//GEN-LAST:event_maNhanVienComboboxActionPerformed
 
     private void submit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submit1ActionPerformed
@@ -361,6 +406,8 @@ public class UpdateHoaDonJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField maHoaDonTextField;
@@ -369,6 +416,8 @@ public class UpdateHoaDonJFrame extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser ngayBanDateChooser;
     private javax.swing.JButton submit;
     private javax.swing.JButton submit1;
+    private javax.swing.JTextField tenKHTextField;
+    private javax.swing.JTextField tenNhanVienTextField;
     private javax.swing.JTextField tongTienTextField;
     // End of variables declaration//GEN-END:variables
 }
